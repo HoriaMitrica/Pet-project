@@ -1,0 +1,327 @@
+Using pre-set license
+Built from '2022.3/staging' branch; Version is '2022.3.2f1 (d74737c6db50) revision 14108471'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Professional' Language: 'en' Physical Memory: 7963 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2022.3.2f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/Horia/Documents/GitHub/Pet-project/Adventure&Co
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+53459
+Successfully changed project path to: C:/Users/Horia/Documents/GitHub/Pet-project/Adventure&Co
+C:/Users/Horia/Documents/GitHub/Pet-project/Adventure&Co
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [15344] Host "[IP] 192.168.56.1 [Port] 0 [Flags] 2 [Guid] 3424053844 [EditorId] 3424053844 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-R9S25C3) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [15344] Host "[IP] 192.168.56.1 [Port] 0 [Flags] 2 [Guid] 3424053844 [EditorId] 3424053844 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-R9S25C3) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 32.12 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.3.2f1 (d74737c6db50)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.2f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Horia/Documents/GitHub/Pet-project/Adventure&Co/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) Iris(R) Plus Graphics (ID=0x8a52)
+    Vendor:   Intel
+    VRAM:     3981 MB
+    Driver:   27.20.100.9415
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.2f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.2f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.2f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56560
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.2f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.035411 seconds.
+- Loaded All Assemblies, in  1.251 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.122 seconds
+Domain Reload Profiling: 2368ms
+	BeginReloadAssembly (357ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (2ms)
+	RebuildCommonClasses (108ms)
+	RebuildNativeTypeToScriptingClass (54ms)
+	initialDomainReloadingComplete (235ms)
+	LoadAllAssembliesAndSetupDomain (491ms)
+		LoadAssemblies (351ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (474ms)
+			TypeCache.Refresh (472ms)
+				TypeCache.ScanAssembly (444ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (1123ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (823ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (41ms)
+			SetLoadedEditorAssemblies (29ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (8ms)
+			ProcessInitializeOnLoadAttributes (558ms)
+			ProcessInitializeOnLoadMethodAttributes (187ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\Horia\Documents\GitHub\Pet-project\Adventure&Co\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\Horia\Documents\GitHub\Pet-project\Adventure&Co\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  3.094 seconds
+Refreshing native plugins compatible for Editor in 17.73 ms, found 4 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.408 seconds
+Domain Reload Profiling: 5468ms
+	BeginReloadAssembly (474ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (24ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (64ms)
+	RebuildCommonClasses (110ms)
+	RebuildNativeTypeToScriptingClass (33ms)
+	initialDomainReloadingComplete (157ms)
+	LoadAllAssembliesAndSetupDomain (2285ms)
+		LoadAssemblies (1193ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (1311ms)
+			TypeCache.Refresh (1188ms)
+				TypeCache.ScanAssembly (1116ms)
+			ScanForSourceGeneratedMonoScriptInfo (104ms)
+			ResolveRequiredComponents (19ms)
+	FinalizeReload (2410ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (1778ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (25ms)
+			SetLoadedEditorAssemblies (13ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (333ms)
+			ProcessInitializeOnLoadAttributes (1229ms)
+			ProcessInitializeOnLoadMethodAttributes (145ms)
+			AfterProcessingInitializeOnLoad (32ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (26ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.14 seconds
+Refreshing native plugins compatible for Editor in 45.03 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 4051 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 63 unused Assets / (60.4 KB). Loaded Objects now: 4516.
+Memory consumption went from 139.8 MB to 139.8 MB.
+Total: 11.893300 ms (FindLiveObjects: 0.517700 ms CreateObjectMapping: 0.327100 ms MarkObjects: 10.425300 ms  DeleteObjects: 0.621300 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 78427.487647 seconds.
+  path: Assets/NPC-enemies/Swamp_enemies
+  artifactKey: Guid(858158397b03a50489d97814b6b5ef23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC-enemies/Swamp_enemies using Guid(858158397b03a50489d97814b6b5ef23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd6dae13a54b0e114ccdde53af3a464f8') in 0.011722 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 9.690934 seconds.
+  path: Assets/NPC_enemies
+  artifactKey: Guid(734049f954e63e64091e2335d06600eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies using Guid(734049f954e63e64091e2335d06600eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4257e15bcbb9c9a424fa339f1c4cd197') in 0.000969 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 8.764321 seconds.
+  path: Assets/NPC_enemies/Swamp
+  artifactKey: Guid(858158397b03a50489d97814b6b5ef23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp using Guid(858158397b03a50489d97814b6b5ef23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9d3874a42889dafe370de5c061391142') in 0.001020 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 8.513422 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle.png
+  artifactKey: Guid(16d99c6c0acb3724a9e7fa2881701b46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle.png using Guid(16d99c6c0acb3724a9e7fa2881701b46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7146a411ff0232c6005ce91cc1f4dac3') in 0.704764 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000046 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle_death.png
+  artifactKey: Guid(0ba012cac658e72469c3892e197e64cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle_death.png using Guid(0ba012cac658e72469c3892e197e64cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dcef16726f8ef77565a34b7504ad76d3') in 0.044862 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle_idle.png
+  artifactKey: Guid(a92d2507dfc5e1741948360bf544ba95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle_idle.png using Guid(a92d2507dfc5e1741948360bf544ba95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '32f30b9f52e679bfe6cf68f116635a5c') in 0.040731 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000201 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle_hurt.png
+  artifactKey: Guid(d2357e37b61ca3e41ad2974c79d3ba27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle_hurt.png using Guid(d2357e37b61ca3e41ad2974c79d3ba27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2c4b22129b375e91c23fe207b93c377') in 0.043153 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/NPC_enemies/Swamp/New Folder
+  artifactKey: Guid(1975b7ad2c750da4484ed19049a9e91f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/New Folder using Guid(1975b7ad2c750da4484ed19049a9e91f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '812445ff4a7986e04a79025207e1a3cb') in 0.001047 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 11.199825 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle
+  artifactKey: Guid(1975b7ad2c750da4484ed19049a9e91f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle using Guid(1975b7ad2c750da4484ed19049a9e91f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b53835530413d3239287a4edfe9d6aa1') in 0.000924 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 76.806869 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_attack.png
+  artifactKey: Guid(b5ede7ccfa15e0440adf9092a2463814) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_attack.png using Guid(b5ede7ccfa15e0440adf9092a2463814) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9cbe58c09efc56d876add52726015890') in 0.023946 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 22.748908 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_attack.png
+  artifactKey: Guid(b5ede7ccfa15e0440adf9092a2463814) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_attack.png using Guid(b5ede7ccfa15e0440adf9092a2463814) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6d612295c34883333817847d83fd33d2') in 0.046650 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 6
+========================================================================
+Received Import Request.
+  Time since last request: 15.422162 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_death.png
+  artifactKey: Guid(0ba012cac658e72469c3892e197e64cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_death.png using Guid(0ba012cac658e72469c3892e197e64cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f625eadb5d4c8e70f4e0bdcbe967b793') in 0.023413 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 5.244136 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_death.png
+  artifactKey: Guid(0ba012cac658e72469c3892e197e64cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_death.png using Guid(0ba012cac658e72469c3892e197e64cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1eb57ecd0394ca5c725c30ddce4f9c6b') in 0.047575 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 6
+========================================================================
+Received Import Request.
+  Time since last request: 9.693414 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_idle.png
+  artifactKey: Guid(a92d2507dfc5e1741948360bf544ba95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_idle.png using Guid(a92d2507dfc5e1741948360bf544ba95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b70092d9b14f50b86151deea53eee763') in 0.024719 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 6.135704 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_idle.png
+  artifactKey: Guid(a92d2507dfc5e1741948360bf544ba95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_idle.png using Guid(a92d2507dfc5e1741948360bf544ba95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '85349707dad48f27e6fc38188f043280') in 0.048390 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 6
+========================================================================
+Received Import Request.
+  Time since last request: 10.875364 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_walk.png
+  artifactKey: Guid(c12738c52fcfbeb49b3c5b7e894d170c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_walk.png using Guid(c12738c52fcfbeb49b3c5b7e894d170c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '58d5443ced6541c1b0bf7d30ac77fe16') in 0.023481 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 5.921492 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_walk.png
+  artifactKey: Guid(c12738c52fcfbeb49b3c5b7e894d170c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_walk.png using Guid(c12738c52fcfbeb49b3c5b7e894d170c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f5e1d116ef3858a782484af28b55e9f7') in 0.047165 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 6
+========================================================================
+Received Import Request.
+  Time since last request: 16.631515 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_hurt.png
+  artifactKey: Guid(d2357e37b61ca3e41ad2974c79d3ba27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_hurt.png using Guid(d2357e37b61ca3e41ad2974c79d3ba27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8ee082210c48ec5733b51e66b6c587bd') in 0.024856 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 5.205975 seconds.
+  path: Assets/NPC_enemies/Swamp/Turtle/Turtle_hurt.png
+  artifactKey: Guid(d2357e37b61ca3e41ad2974c79d3ba27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/NPC_enemies/Swamp/Turtle/Turtle_hurt.png using Guid(d2357e37b61ca3e41ad2974c79d3ba27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '10e6de23a7566f92d934cf22ab051fb1') in 0.033320 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 4
