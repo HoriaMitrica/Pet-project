@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -40,12 +41,14 @@ public class PlayerController : MonoBehaviour
          else
              if (Input.GetKey(KeyCode.LeftShift))
              {
+                 _animator.SetBool("isAttackingStrong",false);
                  _animator.SetBool("isRunning",true);
                  _animator.SetBool("isWalking",true);
                  _rigidbody.velocity = new Vector2(_horizontal*_runSpeed, _rigidbody.velocity.y);
              }
              else
              {
+                 _animator.SetBool("isAttackingStrong",false);
                  _animator.SetBool("isRunning",false);
                  _animator.SetBool("isWalking",true);
                  _rigidbody.velocity = new Vector2(_horizontal*_walkSpeed, _rigidbody.velocity.y);
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
      private void OnTriggerEnter2D(Collider2D collision)
      {
+         Debug.Log(collision.gameObject);
          if (collision.gameObject.CompareTag("Ground"))
          {
              _animator.SetBool("isJumping",false);

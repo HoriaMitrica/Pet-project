@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private Animator _animator;
-
+    private float _horizontal;
     private float _attackBasic;
     private float _attackStrong;
 
@@ -20,6 +20,7 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _horizontal = Input.GetAxisRaw("Horizontal");
         _attackBasic = Input.GetAxisRaw("AttackBasic");
         _attackStrong = Input.GetAxisRaw("AttackStrong");
     }
@@ -34,7 +35,7 @@ public class PlayerAttack : MonoBehaviour
         {
             _animator.SetBool("isAttackingBasic", false);
         }
-        if (_attackStrong != 0)
+        if (_attackStrong != 0 && _horizontal==0)
         {
             _animator.SetBool("isAttackingStrong",true);
         }
