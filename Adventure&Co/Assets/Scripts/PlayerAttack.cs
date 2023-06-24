@@ -1,47 +1,45 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NPC.Enemies;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private Animator _animator;
     private float _horizontal;
-    private float _attackBasic;
-    private float _attackStrong;
 
+    [SerializeField] private Transform attackPoint;
+     private float _attackRange=0.1f;
+     private int _damage=10;
+     private LayerMask _enemyLayers;
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponent<Animator>();
+        _enemyLayers=LayerMask.GetMask("Enemies");
     }
 
     // Update is called once per frame
     void Update()
     {
-        _horizontal = Input.GetAxisRaw("Horizontal");
-        _attackBasic = Input.GetAxisRaw("AttackBasic");
-        _attackStrong = Input.GetAxisRaw("AttackStrong");
     }
 
     private void FixedUpdate()
     {
-        if (_attackBasic != 0)
+
+    }
+
+    public void DealDamage()
+    {
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, _attackRange, _enemyLayers);
+        foreach (var enemy in enemiesHit)
         {
-            _animator.SetBool("isAttackingBasic", true);
+            enemy.GetComponent<EnemyBehavior>().TakeDamage(_damage);
         }
-        else
-        {
-            _animator.SetBool("isAttackingBasic", false);
-        }
-        if (_attackStrong != 0 && _horizontal==0)
-        {
-            _animator.SetBool("isAttackingStrong",true);
-        }
-        else
-        {
-            _animator.SetBool("isAttackingStrong",false);
-        }
+        Debug.Log("DEAL DMGGGGGGGGGGGGGGGgg");
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(attackPoint.position,_attackRange);
     }
 }
