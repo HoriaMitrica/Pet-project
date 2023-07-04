@@ -31,7 +31,6 @@ namespace NPC.Enemies
         {
             MoveTowardsPatrolPoint();
         }
-
         private void MoveTowardsPatrolPoint()
         {
             if (patrolPoints.Length == 0)
@@ -46,7 +45,6 @@ namespace NPC.Enemies
             {
                 Flip("left");
             }
-                
             transform.Translate(moveDirection * (_walkSpeed * Time.deltaTime));
             float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
             if (distanceToTarget < 0.1f)
@@ -60,7 +58,6 @@ namespace NPC.Enemies
             if (_isMovingForward)
             {
                 _currentPatrolIndex++;
-
                 if (_currentPatrolIndex >= patrolPoints.Length)
                 {
                     _currentPatrolIndex = patrolPoints.Length - 1;
@@ -92,7 +89,6 @@ namespace NPC.Enemies
                 localScale.x = -1f;
                 transform.localScale = localScale;  
             }
-
         }
     }
 }

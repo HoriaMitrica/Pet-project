@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+
+namespace NPC.Enemies
+{
 
 public class EnemyCombat : MonoBehaviour
 {
@@ -45,4 +47,5 @@ public class EnemyCombat : MonoBehaviour
     {
         _animator.SetBool(IsHurt,false);
     }
+}
 }
