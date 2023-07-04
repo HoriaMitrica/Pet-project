@@ -11,15 +11,12 @@ public class PlayerController : MonoBehaviour
     private float _horizontal;
     private float _vertical;
     private bool _isfacingRight = true;
-    private float _currentNumberOfAttacks = 0f;
     private float _attacDelay = 1f;
     private float _jumpForce = 4f;
     private bool _isJumpPressed;
     private bool _isAttackingPressed;
     private float _walkSpeed = 1f;
     private float _runSpeed = 2f;
-    private float _attackBasic;
-    private float _attackStrong;
     private static readonly int IsJumping = Animator.StringToHash("isJumping");
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int IsRunning = Animator.StringToHash("isRunning");
@@ -39,17 +36,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
-        //_attackBasic = Input.GetAxisRaw("AttackBasic");
-        _attackStrong = Input.GetAxisRaw("AttackStrong");
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _isJumpPressed = true;
         }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        }
+        
         if (Input.GetKeyDown(KeyCode.Z))
         {
             _isAttackingPressed = true;
@@ -70,14 +61,14 @@ public class PlayerController : MonoBehaviour
                  Invoke(nameof(StopAttacking), _attacDelay);
              }
          }
-         if (_attackStrong!=0 && _horizontal==0)
+         /*if (_attackStrong!=0 && _horizontal==0)
          {
              _animator.SetBool(IsAttackingStrong,true);
          }
          else
          {
              _animator.SetBool(IsAttackingStrong,false);
-         }
+         }*/
          ////////
          if (_horizontal == 0)
          {
@@ -110,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
      private void StopAttacking()
      {
-         _combat.DealDamage();
+         //_combat.DealDamage();
          _animator.SetBool(IsAttackingBasic, false);
      }
      private void Flip()

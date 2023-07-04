@@ -23,23 +23,19 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
     }
-
-    private void FixedUpdate()
-    {
-
-    }
-
+    
     public void DealDamage()
     {
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, _attackRange, _enemyLayers);
         foreach (var enemy in enemiesHit)
         {
-            enemy.GetComponent<EnemyBehavior>().TakeDamage(_damage);
+            enemy.GetComponent<EnemyCombat>().TakeDamage(_damage);
         }
-        Debug.Log("DEAL DMGGGGGGGGGGGGGGGgg");
     }
     private void OnDrawGizmosSelected()
     {
+        if (attackPoint == null)
+            return;
         Gizmos.DrawWireSphere(attackPoint.position,_attackRange);
     }
 }

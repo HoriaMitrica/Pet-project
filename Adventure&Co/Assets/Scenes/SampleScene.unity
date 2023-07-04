@@ -1085,7 +1085,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875224400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67, y: -0.184, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1152,6 +1152,7 @@ GameObject:
   - component: {fileID: 1082807218}
   - component: {fileID: 1082807221}
   - component: {fileID: 1082807222}
+  - component: {fileID: 1082807223}
   m_Layer: 6
   m_Name: Turtle Enemy
   m_TagString: Untagged
@@ -1264,7 +1265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082807217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.672, y: -1.761, z: 0.034106255}
+  m_LocalPosition: {x: -7, y: -1.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1306,8 +1307,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa9fec33b0b2624180626936b0c632e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rightLimit: {fileID: 1252126077}
-  _leftLimit: {fileID: 875224401}
+  isPatrolling: 1
+  rightLimit: {fileID: 1252126077}
+  leftLimit: {fileID: 875224401}
+--- !u!50 &1082807223
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082807217}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
 --- !u!1 &1252126076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,7 +1361,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252126076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.327, y: -0.194, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1575,7 +1604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 543101527829290478, guid: e149a2d6691639940987129cfb560f9f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.78
+      value: -1.76
       objectReference: {fileID: 0}
     - target: {fileID: 543101527829290478, guid: e149a2d6691639940987129cfb560f9f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1608,6 +1637,14 @@ PrefabInstance:
     - target: {fileID: 543101527829290478, guid: e149a2d6691639940987129cfb560f9f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820256038018651755, guid: e149a2d6691639940987129cfb560f9f, type: 3}
+      propertyPath: m_Size.y
+      value: 0.026074886
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820256038018651755, guid: e149a2d6691639940987129cfb560f9f, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.24471426
       objectReference: {fileID: 0}
     - target: {fileID: 5933563579075782175, guid: e149a2d6691639940987129cfb560f9f, type: 3}
       propertyPath: m_Name
