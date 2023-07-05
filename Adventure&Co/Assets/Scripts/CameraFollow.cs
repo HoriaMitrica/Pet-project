@@ -9,8 +9,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         var position = player.transform.position;

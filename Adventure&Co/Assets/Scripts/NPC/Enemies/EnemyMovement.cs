@@ -4,38 +4,38 @@ namespace NPC.Enemies
 {
     public class EnemyMovement : MonoBehaviour
     {
-        
-        private Animator _animator;
-        [SerializeField] private Transform[] patrolPoints;
-        private int _currentPatrolIndex; 
         private static readonly int HasToWalk = Animator.StringToHash("hasToWalk");
-        private float _maxRight;
-        private float _maxLeft;
-        public bool isPatrolling;
+        [SerializeField] private Transform[] patrolPoints;
+        [SerializeField] public bool isPatrolling;
+        [SerializeField] private bool isAggresive;
         private bool _isMovingForward = true;
-        private float _walkSpeed=0.5f;
-        
+        private int _currentPatrolIndex;
+        private Animator _animator;
+        private EnemyStats _stats;
         private float _enemyX;
         
         void Start()
         {
-
+            _stats = GetComponent<EnemyStats>();
             _animator = GetComponent<Animator>();
-            if (isPatrolling)
-            {
-                _animator.SetBool(HasToWalk, true);
-            }
+            _animator.SetBool(HasToWalk, isPatrolling);
         }
         
         void Update()
         {
-            MoveTowardsPatrolPoint();
+            
+            if (isPatrolling)
+            {
+                MoveTowardsPatrolPoint();
+            }
         }
+        
         private void MoveTowardsPatrolPoint()
         {
             if (patrolPoints.Length == 0)
                 return;
             Vector3 targetPosition = patrolPoints[_currentPatrolIndex].position;
+            
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             if (moveDirection.x < 0)
             {
@@ -45,8 +45,9 @@ namespace NPC.Enemies
             {
                 Flip("left");
             }
-            transform.Translate(moveDirection * (_walkSpeed * Time.deltaTime));
+            transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
             float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+            Debug.Log(distanceToTarget);
             if (distanceToTarget < 0.1f)
             {
                 ChangePatrolPoint();
@@ -74,7 +75,6 @@ namespace NPC.Enemies
                 }
             }
         }
-        
         private void Flip(string direction)
         {
             if (direction == "right")

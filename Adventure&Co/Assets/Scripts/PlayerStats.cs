@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using Abstract;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : Stats
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
+    [SerializeField] private float runSpeed=2f;
+    [SerializeField] private float jumpForce = 4f;
+    public float RunSpeed => runSpeed;
+    public float JumpForce => jumpForce;
+    
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
