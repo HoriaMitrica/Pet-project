@@ -1,7 +1,9 @@
 
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace Player
+{
+    public class PlayerController : MonoBehaviour
 { 
     private PlayerStats _stats;
     private Rigidbody2D _rigidbody;
@@ -17,7 +19,6 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
-        
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _stats = GetComponent<PlayerStats>();
@@ -92,4 +93,5 @@ public class PlayerController : MonoBehaviour
              _animator.SetBool(IsJumping, true);
          }
      }
+}
 }

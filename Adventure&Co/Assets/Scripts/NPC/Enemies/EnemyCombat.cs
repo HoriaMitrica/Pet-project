@@ -1,6 +1,7 @@
 
 using System;
 using Interfaces;
+using Player;
 using UnityEngine;
 
 namespace NPC.Enemies
@@ -34,8 +35,10 @@ public class EnemyCombat : MonoBehaviour, ICombat
     void Update()
     {
         _cooldownTimer += Time.deltaTime;
+        Debug.Log(_cooldownTimer);
         if (PlayerInSight())
         {
+            
             if (_cooldownTimer >= attackCooldown)
             {
                 _cooldownTimer = 0;
