@@ -11,7 +11,6 @@ public class EnemyCombat : MonoBehaviour, ICombat
 {
     private static readonly int Attack = Animator.StringToHash("Attack");
     private static readonly int IsDead = Animator.StringToHash("isDead");
-    private static readonly int IsHurt = Animator.StringToHash("isHurt");
     [SerializeField] private BoxCollider2D _boxCollider;
     [SerializeField] private  float attackCooldown = 1f;
     [SerializeField] private float range;
@@ -22,6 +21,7 @@ public class EnemyCombat : MonoBehaviour, ICombat
     private PlayerCombat _playerCombat;
     private EnemyMovement _movement;
     private EnemyStats _stats;
+    private HealthbarBehaviour _healthbar;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,13 +29,14 @@ public class EnemyCombat : MonoBehaviour, ICombat
         _stats = GetComponent<EnemyStats>();
         _animator = GetComponent<Animator>();
         _playerLayer=LayerMask.GetMask("Player");
+        _healthbar = GetComponentInChildren<HealthbarBehaviour>();
+        _healthbar.SetHealth(_stats.CurrentHealth,_stats.MaxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
         _cooldownTimer += Time.deltaTime;
-        Debug.Log(_cooldownTimer);
         if (PlayerInSight())
         {
             
@@ -63,9 +64,9 @@ public class EnemyCombat : MonoBehaviour, ICombat
     }
     public void TakeDamage(int damageTaken)
     {
-        _animator.SetTrigger(IsHurt);
         _cooldownTimer -= _hurtTimer;
         _stats.DecreaseHealth(damageTaken);
+        _healthbar.SetHealth(_stats.CurrentHealth,_stats.MaxHealth);
         if (_stats.CurrentHealth <= 0)
         {
             Die();
@@ -77,12 +78,12 @@ public class EnemyCombat : MonoBehaviour, ICombat
         _movement.isPatrolling = false;
         _animator.SetBool(IsDead,true);
     }
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color=Color.blue;
         Gizmos.DrawWireCube(_boxCollider.bounds.center+transform.right*range*transform.localScale.x,
             _boxCollider.bounds.size);
-    }
+    }*/
 
     public void DealDamage()
     {

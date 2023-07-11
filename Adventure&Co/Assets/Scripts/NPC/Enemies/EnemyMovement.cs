@@ -35,7 +35,6 @@ namespace NPC.Enemies
             if (patrolPoints.Length == 0)
                 return;
             Vector3 targetPosition = patrolPoints[_currentPatrolIndex].position;
-            
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             if (moveDirection.x < 0)
             {
@@ -47,7 +46,6 @@ namespace NPC.Enemies
             }
             transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
             float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-            Debug.Log(distanceToTarget);
             if (distanceToTarget < 0.1f)
             {
                 ChangePatrolPoint();
