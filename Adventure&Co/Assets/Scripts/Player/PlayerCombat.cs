@@ -13,14 +13,14 @@ namespace Player
         private PlayerStats _stats;
         private LayerMask _enemyLayers;
         private static readonly int IsDead = Animator.StringToHash("isDead");
-        private static readonly int Hurt = Animator.StringToHash("Hurt");
-
+        
         private Animator _animator;
 
         // Start is called before the first frame update
         void Start()
         {
             _animator = GetComponent<Animator>();
+
             _enemyLayers = LayerMask.GetMask("Enemies");
             _stats = GetComponent<PlayerStats>();
         }
@@ -38,7 +38,6 @@ namespace Player
         public void TakeDamage(int damageTaken)
         {
             _stats.DecreaseHealth(damageTaken);
-            _animator.SetTrigger(Hurt);
             if (_stats.CurrentHealth <= 0)
             {
                 _animator.SetBool(IsDead, true);

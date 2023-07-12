@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style/Button.uss?fileID=7433441132597879392&amp;guid=f0205ca337b831641a69640044c7019a&amp;type=3#Button" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 528px; height: 213px; flex-wrap: wrap;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 200px; width: 300px; flex-direction: row; flex-shrink: 1; justify-content: center; align-self: center; align-items: center; border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+            <ui:Button text="AAA" display-tooltip-when-elided="true" class="button" style="-unity-text-align: middle-center; text-overflow: clip; white-space: normal; flex-direction: column; flex-wrap: nowrap;" />
+            <ui:Button text="AAA" display-tooltip-when-elided="true" class="button" style="-unity-text-align: middle-center; white-space: nowrap; flex-direction: column;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

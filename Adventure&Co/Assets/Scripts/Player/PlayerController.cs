@@ -9,6 +9,7 @@ namespace Player
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private float _horizontal;
+    private float _attackspeed=1;
     private bool _isfacingRight = true;
     private bool _isJumpPressed;
     private static readonly int IsJumping = Animator.StringToHash("isJumping");
@@ -16,7 +17,8 @@ namespace Player
     private static readonly int IsRunning = Animator.StringToHash("isRunning");
     private static readonly int AttackingStrong = Animator.StringToHash("AttackingStrong");
     private static readonly int AttackingBasic = Animator.StringToHash("AttackingBasic");
-    
+    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -26,6 +28,7 @@ namespace Player
 
     void Update()
     {
+        
         _horizontal = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -39,6 +42,18 @@ namespace Player
         {
             _animator.SetTrigger(AttackingStrong);
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _attackspeed+=0.1f;
+            _animator.SetFloat(AttackSpeed,_attackspeed);
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            _attackspeed-=0.1f;
+            _animator.SetFloat(AttackSpeed,_attackspeed);
+        }
+        
         Flip();
     }
 

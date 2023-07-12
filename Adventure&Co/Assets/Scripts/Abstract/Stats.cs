@@ -15,7 +15,7 @@ public abstract class Stats : MonoBehaviour
     public int Damage => damage;
     public float WalkSpeed => walkSpeed;
 
-    void Start()
+    void Awake()
     {
         _currentHealth = maxHealth;
     }
