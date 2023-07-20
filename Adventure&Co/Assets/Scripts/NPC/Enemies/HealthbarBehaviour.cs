@@ -19,7 +19,6 @@ namespace NPC.Enemies
             slider.maxValue = maxHealth; 
             
             slider.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high,slider.normalizedValue);
-            Debug.Log(slider.value);
         }
     }
 }

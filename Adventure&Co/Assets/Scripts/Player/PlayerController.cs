@@ -1,4 +1,5 @@
 
+using _Inventory;
 using UnityEngine;
 
 namespace Player
@@ -29,7 +30,8 @@ namespace Player
 
     void Update()
     {
-        
+
+
         _horizontal = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space))
         {
