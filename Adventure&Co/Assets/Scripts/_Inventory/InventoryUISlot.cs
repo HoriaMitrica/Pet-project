@@ -14,14 +14,15 @@ namespace _Inventory
         public ItemInfo ItemInfo { get; private set;}
         private int _amount;
         private CanvasGroup _imageVisibility;
-        [SerializeField] private Button button;
+        [SerializeField] public Button button;
         [SerializeField] private Image image;
         [SerializeField] private TMP_Text text;
         public void Awake()
         {
             _imageVisibility=image.GetComponent<CanvasGroup>();
         }
-
+        
+        
         public void FillVariables(int slotIndex,Inventory inventory)
         {
             SlotIndex = slotIndex;

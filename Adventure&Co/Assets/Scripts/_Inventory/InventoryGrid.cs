@@ -25,10 +25,12 @@ namespace _Inventory
             Slots = new InventoryUISlot[Inventory.AmountOfSlots];
             for(int i=0;i<Inventory.Slots.Length;i++)
             {
+                
                 Debug.Log("This is where i generate slots");
                 InventoryUISlot newSlot = Instantiate(slot, transform, false);
                 newSlot.FillVariables(i,Inventory);
-                Slots[i]=newSlot;
+                newSlot.button.onClick.AddListener(Inventory.OnSlotClicked);
+                Slots[i]=newSlot;   
             }
             
         }

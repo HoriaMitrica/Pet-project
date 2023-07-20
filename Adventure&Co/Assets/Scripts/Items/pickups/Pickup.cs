@@ -29,11 +29,11 @@ namespace Items.pickups
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 var inventoryRef = playerController.inventory;
                 var addItem = inventoryRef.AddItem(itemClass, amount);
-                if (addItem.Item1)
+                if (addItem.Success)
                 {
-                    if (addItem.Item2 > 0)
+                    if (addItem.Remainder > 0)
                     {
-                        amount = addItem.Item2; 
+                        amount = addItem.Remainder; 
                     }
                     else
                     {

@@ -1,3 +1,4 @@
+using _Inventory;
 using Enums;
 using Structures;
 using UnityEngine;
@@ -8,5 +9,15 @@ namespace Items
     {
         // Start is called before the first frame update
         public ItemInfo Info;
+
+        public void UseItem(Inventory inventory,int index)
+        {
+
+            if (inventory.RemoveItemAtIndex(index, 1))
+            {
+                Debug.Log($"Item Used {Info.Name}");
+            }
+
+        }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Items;
 using Structures;
 using UnityEngine;
@@ -14,8 +13,7 @@ namespace _Inventory
         [SerializeField] private GameObject player;
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
-        [SerializeField] private GameObject inventoryUI;
-        private Canvas _inventoryUICanvas;
+        [SerializeField] private ActionMenu actionMenu;
         private InventoryGrid _inventoryGrid;
         public InventorySlot[] Slots { get; private set; }
 
@@ -29,16 +27,8 @@ namespace _Inventory
          void Start()
          {
              _inventoryGrid = mainWidget.InventoryGrid;
-             _inventoryUICanvas = inventoryUI.GetComponent<Canvas>();
+         }
 
-         }
-         private void Update()
-         {
-             if (Input.GetKeyDown(KeyCode.I))
-             {
-                 _inventoryUICanvas.enabled = !_inventoryUICanvas.enabled;
-             }
-         }
         public void ChangeAmountOfSlots(int slots)
         {
             AmountOfSlots = slots;
@@ -48,104 +38,101 @@ namespace _Inventory
             return Slots[index]==null;
         }
 
-        public Tuple<bool,ItemInfo,int> GetItemAtIndex(int index)
+        public (bool Success,ItemInfo ItemInfo,int Amount) GetItemAtIndex(int index)
         {
             if (IsSlotEmpty(index))
             {
-                return new Tuple<bool, ItemInfo, int>(true, null,-1);
+                return (Success:true, ItemInfo:null,Amount:-1);
             }
-            return new Tuple<bool, ItemInfo, int>(false, Slots[index].ItemClass.Info, Slots[index].Amount);
+            return (Success:false, ItemInfo:Slots[index].ItemClass.Info, Amount:Slots[index].Amount);
         }
 
-        public Tuple<bool,int> SearchEmptySlot()
+        public (bool Success,int Index) SearchEmptySlot()
         {
             for (int i = 0; i < Slots.Length;i++)
             {
                 if (IsSlotEmpty(i))
-                    return new Tuple<bool, int>(true, i);
+                    return (Success:true, Index:i);
             }
-            return new Tuple<bool, int>(false, -1);
+            return (Success:false, Index:-1);
         }
 
-        public Tuple<bool, int> SearchFreeStack(MasterItem itemClass)
+        public (bool Success, int Index) SearchFreeStack(MasterItem itemClass)
         {
             for (int i = 0; i < Slots.Length; i++)
             {
                 if (!IsSlotEmpty(i))
                 {
                     if (Slots[i].ItemClass == itemClass && Slots[i].Amount<_maxStackSize)
-                        return new Tuple<bool, int>(true, i);
+                        return (Success:true, Index:i);
                 }
             }
 
-            return new Tuple<bool, int>(false, -1);
+            return (Success:false, Index:-1);
         }
 
-        public Tuple<bool,int> AddItem(MasterItem itemClass, int amount)
+        public (bool Success,int Remainder) AddItem(MasterItem itemClass, int amount)
         {
-        
-            Tuple<bool, int> emptySlot;
+            
             if (!itemClass.Info.CanStack)
             {
-                emptySlot=SearchEmptySlot();
-                if (emptySlot.Item1)
+                var emptySlot =SearchEmptySlot();
+                if (emptySlot.Success)
                 {
-                    Slots[emptySlot.Item2] = new InventorySlot(itemClass,1);
-                    UpdateSlotAtIndex(emptySlot.Item2);
+                    Slots[emptySlot.Index] = new InventorySlot(itemClass,1);
+                    UpdateSlotAtIndex(emptySlot.Index);
                     if (amount > 1)
                     {
                         var addItem=AddItem(itemClass, amount - 1);
-                        
-                        return new Tuple<bool, int>(true,addItem.Item2);
+                        return (Success:true,Remainder:addItem.Remainder);
                     }
                 }
                 else
                 {
-                    return new Tuple<bool, int>(false,amount);
+                    return (Success:false,Remainder:amount);
                 }
             }
             else
             {
                 var freeStack = SearchFreeStack(itemClass);
-                Tuple<bool, int> addItem;
-                if (!freeStack.Item1)
+                if (!freeStack.Success)
                 {
-                    emptySlot = SearchEmptySlot();
-                    if (!emptySlot.Item1)
-                        return new Tuple<bool, int>(false,amount);
+                    var emptySlot = SearchEmptySlot();
+                    if (!emptySlot.Success)
+                        return (Success:false,Remainder:amount);
                     if (amount > _maxStackSize)
                     {
-                        Slots[emptySlot.Item2] = new InventorySlot(itemClass, _maxStackSize);
-                        UpdateSlotAtIndex(emptySlot.Item2);
-                        addItem=AddItem(itemClass, amount - _maxStackSize);
-                        return new Tuple<bool, int>(true,addItem.Item2);
+                        Slots[emptySlot.Index] = new InventorySlot(itemClass, _maxStackSize);
+                        UpdateSlotAtIndex(emptySlot.Index);
+                        var addItem=AddItem(itemClass, amount - _maxStackSize);
+                        return (Success:true,Remainder:addItem.Remainder);
                     }
                     else
                     {
-                        Slots[emptySlot.Item2] = new InventorySlot(itemClass, amount);
-                        UpdateSlotAtIndex(emptySlot.Item2);
-                        return new Tuple<bool, int>(true,0) ;
+                        Slots[emptySlot.Index] = new InventorySlot(itemClass, amount);
+                        UpdateSlotAtIndex(emptySlot.Index);
+                        return (Success:true,Remainder:0) ;
                     }
                 }
                 else
                 {
-                    int sum = amount + Slots[freeStack.Item2].Amount;
+                    int sum = amount + Slots[freeStack.Index].Amount;
                     if (sum > _maxStackSize)
                     {
-                        Slots[freeStack.Item2] = new InventorySlot(itemClass, 64);
-                        UpdateSlotAtIndex(freeStack.Item2);
-                        addItem=AddItem(itemClass, sum - _maxStackSize);
-                        return new Tuple<bool, int>(true,addItem.Item2);
+                        Slots[freeStack.Index] = new InventorySlot(itemClass, _maxStackSize);
+                        UpdateSlotAtIndex(freeStack.Index);
+                        var addItem=AddItem(itemClass, sum - _maxStackSize);
+                        return (Success:true,Remainder:addItem.Remainder);
                     }
                     else
                     {
                         Slots[freeStack.Item2] = new InventorySlot(itemClass, sum);
                         UpdateSlotAtIndex(freeStack.Item2);
-                        return new Tuple<bool, int>(true,0);
+                        return (Success:true,Remainder:0);
                     }
                 }
             }
-            return new Tuple<bool, int>(false,0);
+            return (Success:false,Remainder:0);
         }
 
         public int GetAmountAtIndex(int index)
@@ -156,6 +143,84 @@ namespace _Inventory
         public void UpdateSlotAtIndex(int index)
         {
             _inventoryGrid.Slots[index].UpdateSlot();
+        }
+
+        public bool RemoveItemAtIndex(int index, int amount)
+        {
+            if (!IsSlotEmpty(index) && amount > 0)
+            {
+                if (amount >= GetAmountAtIndex(index))
+                {
+                    Slots[index] = new InventorySlot(null, 0);
+                    UpdateSlotAtIndex(index);
+                    return true;
+                }
+                else
+                {
+                    Slots[index] = new InventorySlot(Slots[index].ItemClass, Slots[index].Amount - amount);
+                    UpdateSlotAtIndex(index);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool SwapSlots(int index1, int index2)
+        {
+            if (index1 < Slots.Length && index2 < Slots.Length)
+            {
+                (Slots[index2], Slots[index1]) = (Slots[index1], Slots[index2]);
+                UpdateSlotAtIndex(index1);
+                UpdateSlotAtIndex(index2);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool SplitStack(int index, int amount)
+        {
+            if (!IsSlotEmpty(index))
+            {
+                var itemInfoAtIndex = GetItemAtIndex(index);
+                if (itemInfoAtIndex.ItemInfo.CanStack && itemInfoAtIndex.Amount >amount)
+                {
+                    var emptySlot = SearchEmptySlot();
+                    if (emptySlot.Success)
+                    {
+                        Slots[index] =
+                            new InventorySlot(Slots[index].ItemClass, Slots[index].Amount - amount);
+                        Slots[emptySlot.Index] = new InventorySlot(Slots[index].ItemClass, amount);
+                        UpdateSlotAtIndex(index);
+                        UpdateSlotAtIndex(emptySlot.Index);
+                        return true;
+                    }
+                }
+            }
+            return false;   
+        }
+
+        // ReSharper disable Unity.PerformanceAnalysis
+        public bool UseItemAtIndex(int index)
+        {
+            if (!IsSlotEmpty(index))
+            { 
+                if (Slots[index].ItemClass.Info.CanBeUsed)
+                {
+                    Slots[index].ItemClass.UseItem(this,index);
+                    return true;
+                }
+
+                return false;
+            }
+
+            return false;
+        }
+
+        public void OnSlotClicked()
+        {
+            actionMenu.gameObject.SetActive(true);
         }
     }
 }
