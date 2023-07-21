@@ -15,15 +15,7 @@ namespace _Inventory
             }
             if (Input.GetKeyDown(KeyCode.T))
             {
-                inventory.SplitStack(0, 32);
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                inventory.SwapSlots(1, 2);
-            }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                inventory.UseItemAtIndex(0);
+                inventory.AddToIndex(0, 1);
             }
         }
 
@@ -37,7 +29,7 @@ namespace _Inventory
             else
             {
                 inventoryUI.gameObject.SetActive(true);
-                inventoryUI.GetComponentInChildren<RemoveFromInventory>().gameObject.SetActive(false);
+                //inventoryUI.GetComponentInChildren<RemoveFromInventory>().gameObject.SetActive(false);
             }
         }
     }

@@ -24,7 +24,6 @@ namespace _Inventory
         {
             _foundIndex = index;
             _throwCount = 1;
-
             var itemAtIndex = inventory.GetItemAtIndex(index);
             _maxAmount = itemAtIndex.Amount;
             nameText.text = $"{itemAtIndex.ItemInfo.Name} x{_maxAmount}";

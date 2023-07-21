@@ -229,7 +229,57 @@ namespace _Inventory
                 actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
                 inventorySlot.UpdateSlot();
             }
-
         }
+
+        public bool SameClassSlots(int index1, int index2)
+        {
+            if(!IsSlotEmpty(index1) && !IsSlotEmpty(index2))
+                return Slots[index1].ItemClass == Slots[index2].ItemClass;
+            return false;
+        }
+        public bool AddToIndex(int fromIndex, int toIndex)
+        {
+            if (SameClassSlots(fromIndex, toIndex) &&
+                Slots[toIndex].Amount<_maxStackSize && 
+                Slots[fromIndex].ItemClass.info.CanStack)
+            {
+                int rest = _maxStackSize - GetAmountAtIndex(toIndex);
+                if (rest >= GetAmountAtIndex(fromIndex))
+                {
+                    Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(toIndex) + GetAmountAtIndex(fromIndex));
+                    Slots[fromIndex] = null;
+                    UpdateSlotAtIndex(fromIndex);
+                    UpdateSlotAtIndex(toIndex);
+                    return true;
+                }
+                Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, _maxStackSize);
+                Slots[fromIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(fromIndex)-rest);
+                UpdateSlotAtIndex(toIndex);
+                UpdateSlotAtIndex(fromIndex);
+                return true;
+            }
+            return false;
+        }
+
+        public bool SplitStackToIndex(int fromIndex,int toIndex,int amount)
+        {
+            if (IsSlotEmpty(toIndex) && !IsSlotEmpty(fromIndex))
+            {
+                if (GetItemAtIndex(fromIndex).ItemInfo.CanStack &&
+                    GetItemAtIndex(fromIndex).Amount > 1 &&
+                    GetItemAtIndex(fromIndex).Amount > amount)
+                {
+                    var localClass = Slots[fromIndex].ItemClass;
+                    Slots[fromIndex] = new InventorySlot(localClass, Slots[fromIndex].Amount - amount);
+                    Slots[toIndex] = new InventorySlot(localClass, amount);
+                    UpdateSlotAtIndex(fromIndex);
+                    UpdateSlotAtIndex(toIndex);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
     }
 }
