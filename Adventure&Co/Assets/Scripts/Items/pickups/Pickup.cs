@@ -13,7 +13,7 @@ namespace Items.pickups
         private void Awake()
         {
             _sprite = GetComponent<SpriteRenderer>();
-            _sprite.sprite = itemClass.Info.Icon;
+            _sprite.sprite = itemClass.info.Icon;
         }
 
         private void OnDrawGizmos()

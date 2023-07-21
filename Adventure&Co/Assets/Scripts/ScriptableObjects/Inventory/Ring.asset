@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Ring
   Description: With this you can become Lord of the Rings
   Icon: {fileID: 21300000, guid: 763c092c3a46368488c302836841c578, type: 3}
-  CanBeUsed: 1
+  CanBeUsed: 0
   UseText: 
   CanStack: 0
   Category: 2

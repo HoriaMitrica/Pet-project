@@ -9,6 +9,7 @@ namespace _Inventory
     public class ActionMenu : MonoBehaviour
     {
         [SerializeField] private Inventory inventory;
+        [SerializeField] private RemoveFromInventory throwUI;
         [SerializeField] private Button useButton;
         [SerializeField] private Button splitButton;
         [SerializeField] private Button dropButton;
@@ -64,9 +65,17 @@ namespace _Inventory
             inventory.SplitStack(_index, _amount / 2);
             transform.gameObject.SetActive(false);
         }
-        public void OnDropButtonPress()
+        public void OnThrowButtonPress()
         {
-            inventory.RemoveItemAtIndex(_index, 1);
+            if (inventory.GetItemAtIndex(_index).Amount > 1)
+            {
+                throwUI.gameObject.SetActive(true);
+                throwUI.UpdateWidget(_index);
+            }
+            else
+            {
+                inventory.RemoveItemAtIndex(_index, 1);
+            }
             transform.gameObject.SetActive(false);
         }
         public void OnCancelButtonPress()

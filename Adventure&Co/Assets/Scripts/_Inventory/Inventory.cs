@@ -1,6 +1,7 @@
 using Items;
 using Structures;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace _Inventory
 {
@@ -14,6 +15,7 @@ namespace _Inventory
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
         [SerializeField] private ActionMenu actionMenu;
+        [SerializeField] private Vector3 actionMenuOffset;
         private InventoryGrid _inventoryGrid;
         public InventorySlot[] Slots { get; private set; }
 
@@ -44,10 +46,10 @@ namespace _Inventory
             {
                 return (Success:true, ItemInfo:null,Amount:-1);
             }
-            return (Success:false, ItemInfo:Slots[index].ItemClass.Info, Amount:Slots[index].Amount);
+            return (Success:false, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
         }
 
-        public (bool Success,int Index) SearchEmptySlot()
+        public (bool Success,int Index) SearchEmptySlot()   
         {
             for (int i = 0; i < Slots.Length;i++)
             {
@@ -74,7 +76,7 @@ namespace _Inventory
         public (bool Success,int Remainder) AddItem(MasterItem itemClass, int amount)
         {
             
-            if (!itemClass.Info.CanStack)
+            if (!itemClass.info.CanStack)
             {
                 var emptySlot =SearchEmptySlot();
                 if (emptySlot.Success)
@@ -151,7 +153,7 @@ namespace _Inventory
             {
                 if (amount >= GetAmountAtIndex(index))
                 {
-                    Slots[index] = new InventorySlot(null, 0);
+                    Slots[index] = null;
                     UpdateSlotAtIndex(index);
                     return true;
                 }
@@ -201,12 +203,12 @@ namespace _Inventory
             return false;   
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
+
         public bool UseItemAtIndex(int index)
         {
             if (!IsSlotEmpty(index))
             { 
-                if (Slots[index].ItemClass.Info.CanBeUsed)
+                if (Slots[index].ItemClass.info.CanBeUsed)
                 {
                     Slots[index].ItemClass.UseItem(this,index);
                     return true;
@@ -218,9 +220,16 @@ namespace _Inventory
             return false;
         }
 
-        public void OnSlotClicked()
+        public void OnSlotClicked(InventoryUISlot inventorySlot, PointerEventData clickType)
         {
-            actionMenu.gameObject.SetActive(true);
+            if (clickType.button == PointerEventData.InputButton.Right)
+            {
+                actionMenu.UpdateMenu(inventorySlot.SlotIndex);
+                actionMenu.gameObject.SetActive(true);
+                actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
+                inventorySlot.UpdateSlot();
+            }
+
         }
     }
 }

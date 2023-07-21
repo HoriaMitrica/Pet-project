@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _Inventory
@@ -11,11 +12,6 @@ namespace _Inventory
         [SerializeField] private InventoryUISlot slot;
         public Inventory Inventory { get; private set; }
         public InventoryUISlot[] Slots { get; private set; }
-        private void Start()
-        {
-            
-        }
-
         public void SetInventory(Inventory inventory)
         {
             Inventory = inventory;
@@ -25,11 +21,19 @@ namespace _Inventory
             Slots = new InventoryUISlot[Inventory.AmountOfSlots];
             for(int i=0;i<Inventory.Slots.Length;i++)
             {
-                
                 Debug.Log("This is where i generate slots");
                 InventoryUISlot newSlot = Instantiate(slot, transform, false);
                 newSlot.FillVariables(i,Inventory);
-                newSlot.button.onClick.AddListener(Inventory.OnSlotClicked);
+                EventTrigger eventTrigger = newSlot.button.GetComponent<EventTrigger>();
+                if (eventTrigger == null)
+                {
+                    eventTrigger = newSlot.button.gameObject.AddComponent<EventTrigger>();
+                }
+                
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerClick;
+                entry.callback.AddListener((data) => { Inventory.OnSlotClicked(newSlot,(PointerEventData)data); });
+                eventTrigger.triggers.Add(entry);
                 Slots[i]=newSlot;   
             }
             

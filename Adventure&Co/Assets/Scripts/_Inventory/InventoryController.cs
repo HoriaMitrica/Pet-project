@@ -32,11 +32,12 @@ namespace _Inventory
             if (inventoryUI.gameObject.activeInHierarchy)
             {
                 inventoryUI.gameObject.SetActive(false);
-            }
                 
+            }
             else
             {
-               inventoryUI.gameObject.SetActive(true); 
+                inventoryUI.gameObject.SetActive(true);
+                inventoryUI.GetComponentInChildren<RemoveFromInventory>().gameObject.SetActive(false);
             }
         }
     }
