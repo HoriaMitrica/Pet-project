@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25d8ed1794ac6f946b02ee9d31d542d9, type: 3}
+  m_Name: HealthPotion
+  m_EditorClassIdentifier: 
+  Name: HealthPotion
+  Description: Gives you some points of health
+  Icon: {fileID: 21300000, guid: f788392a5e8bcb44ea5691bf6a9fa515, type: 3}
+  CanBeUsed: 1
+  UseText: Drink
+  CanStack: 1
+  Category: 0
