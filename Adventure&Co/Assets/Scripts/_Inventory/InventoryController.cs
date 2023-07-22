@@ -6,6 +6,8 @@ namespace _Inventory
     {
         [SerializeField] private GameObject inventoryUI;
         [SerializeField] private Inventory inventory;
+        [SerializeField] private RemoveFromInventory throwWidget;
+        [SerializeField] private ActionMenu actionMenu;
 
         private void Update()
         {
@@ -24,12 +26,12 @@ namespace _Inventory
             if (inventoryUI.gameObject.activeInHierarchy)
             {
                 inventoryUI.gameObject.SetActive(false);
-                
+                throwWidget.gameObject.SetActive(false);
+                actionMenu.gameObject.SetActive(false);
             }
             else
-            {
+            {   
                 inventoryUI.gameObject.SetActive(true);
-                //inventoryUI.GetComponentInChildren<RemoveFromInventory>().gameObject.SetActive(false);
             }
         }
     }

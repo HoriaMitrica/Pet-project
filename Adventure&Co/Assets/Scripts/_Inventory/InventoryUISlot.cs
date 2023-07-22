@@ -1,4 +1,5 @@
 using System;
+using Enums;
 using Structures;
 using TMPro;
 using UnityEngine;
@@ -8,9 +9,10 @@ using Button = UnityEngine.UI.Button;
 
 namespace _Inventory
 {
-    public class InventoryUISlot : MonoBehaviour
+    public class InventoryUISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public int SlotIndex { get; private set; }
+        private Color _slotColor;
         public Inventory Inventory { get; private set; }
         public ItemInfo ItemInfo { get; private set; }
         private int _amount;
@@ -20,6 +22,8 @@ namespace _Inventory
         [SerializeField] private Image image;
         [SerializeField] private TMP_Text text;
         private DraggedItem _draggedItem;
+        private DetailUI _detailWidget;
+        private RemoveFromInventory _throwWidget;
         private float _lastClickTime;
         private float _doubleClickThreshold = 0.2f;
 
@@ -28,15 +32,17 @@ namespace _Inventory
             _imageVisibility = image.GetComponent<CanvasGroup>();
         }
         
-        public void FillVariables(int slotIndex, Inventory inventory, DraggedItem draggedItem,InventoryGrid grid)
+        public void FillVariables(int slotIndex, Inventory inventory, DraggedItem draggedItem,DetailUI detailWidget,RemoveFromInventory throwWidget)
         {
-            _grid = grid;
+            _throwWidget = throwWidget;
             _draggedItem = draggedItem;
+            _detailWidget = detailWidget;
             SlotIndex = slotIndex;
             Inventory = inventory;
+            
             AddClickFunctionality(this, SlotIndex);
             AddDragDropFunctionality(this, SlotIndex);
-
+            
         }
 
         public void UpdateSlot()
@@ -51,6 +57,7 @@ namespace _Inventory
                 button.enabled = true;
                 ItemInfo = Inventory.GetItemAtIndex(SlotIndex).Item2;
                 _amount = Inventory.GetItemAtIndex(SlotIndex).Item3;
+                _slotColor = ItemInfo.RarityColor;
                 image.sprite = ItemInfo.Icon;
                 _imageVisibility.alpha = 1;
                 if (ItemInfo.CanStack)
@@ -63,7 +70,6 @@ namespace _Inventory
                 }
             }
         }
-
         private void AddClickFunctionality(InventoryUISlot slot, int index)
         {
             EventTrigger eventTrigger = slot.button.GetComponent<EventTrigger>();
@@ -117,11 +123,15 @@ namespace _Inventory
 
         private void Dragging()
         {
+            _draggedItem.transform.position = GetWorldPosition();
+        }
+
+        private static Vector3 GetWorldPosition()
+        {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = Camera.main.nearClipPlane; // Set the Z position to the camera's near clip plane distance
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            _draggedItem.transform.position = worldPosition;
-
+            return worldPosition;
         }
 
         private void DragCleanUp()
@@ -150,6 +160,22 @@ namespace _Inventory
                     }
                 }
             }
+
+            if (targetSlot == null)
+            {
+                if (ItemInfo.Category != ItemCategory.QuestItem)
+                {
+                    if (Inventory.GetItemAtIndex(SlotIndex).Amount > 1)
+                    {
+                        _throwWidget.gameObject.SetActive(true);
+                        _throwWidget.UpdateWidget(SlotIndex);
+                    }
+                    else
+                    {
+                        Inventory.RemoveItemAtIndex(SlotIndex, 1);
+                    }
+                }
+            }
             _draggedItem.gameObject.SetActive(false);
         }
         private InventoryUISlot GetDropTargetSlot()
@@ -168,6 +194,24 @@ namespace _Inventory
                 }
             }
             return null;
+        }
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (button.isActiveAndEnabled)
+            {
+                var worldPosition=GetWorldPosition();   
+                RectTransform canvasRectTransform = _detailWidget.GetComponent<RectTransform>();
+                //worldPosition.x -= canvasRectTransform.rect.width * canvasRectTransform.pivot.x;
+                //worldPosition.y -= canvasRectTransform.rect.height * canvasRectTransform.pivot.y;
+                _detailWidget.transform.position = worldPosition;
+                _detailWidget.gameObject.SetActive(true);
+                _detailWidget.UpdateInfo(ItemInfo,_slotColor,_amount);
+            }
+        }
+        
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _detailWidget.gameObject.SetActive(false);
         }
     }
 }

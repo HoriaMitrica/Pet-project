@@ -11,6 +11,8 @@ namespace _Inventory
         [SerializeField] private GridLayoutGroup grid;
         [SerializeField] private InventoryUISlot slot;
         [SerializeField] private DraggedItem draggedItem;
+        [SerializeField] private DetailUI detailWidget;
+        [SerializeField] private RemoveFromInventory throwWidget;
         public Inventory Inventory { get; private set; }
         public InventoryUISlot[] Slots { get; private set; }
 
@@ -23,9 +25,8 @@ namespace _Inventory
             Slots = new InventoryUISlot[Inventory.AmountOfSlots];
             for(int i=0;i<Inventory.Slots.Length;i++)
             {
-                Debug.Log("This is where i generate slots");
                 InventoryUISlot newSlot = Instantiate(slot, transform, false);
-                newSlot.FillVariables(i,Inventory,draggedItem,this);
+                newSlot.FillVariables(i,Inventory,draggedItem,detailWidget,throwWidget);
                 Slots[i]=newSlot;
             }   
         }

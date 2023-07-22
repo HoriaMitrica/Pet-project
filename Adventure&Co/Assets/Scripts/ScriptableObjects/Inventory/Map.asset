@@ -19,3 +19,5 @@ MonoBehaviour:
   UseText: Read
   CanStack: 0
   Category: 3
+  ItemRarity: 1255000003
+  RarityColor: {r: 0.62, g: 0.86, b: 0.5, a: 1}

@@ -19,3 +19,5 @@ MonoBehaviour:
   UseText: Drink
   CanStack: 1
   Category: 0
+  ItemRarity: 1255000000
+  RarityColor: {r: 1, g: 1, b: 1, a: 1}

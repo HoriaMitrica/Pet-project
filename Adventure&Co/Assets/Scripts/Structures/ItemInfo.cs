@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enums;
 using UnityEngine;
 
@@ -14,7 +15,10 @@ namespace Structures
         public bool CanBeUsed;
         public string UseText;
         public bool CanStack;
-        public ItemCategories Category;
+        public ItemCategory Category;
+        public ItemRarity ItemRarity;
+        public Color RarityColor;
+
 
     }
 }

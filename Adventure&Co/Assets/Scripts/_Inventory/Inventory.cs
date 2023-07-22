@@ -1,3 +1,4 @@
+using Enums;
 using Items;
 using Structures;
 using UnityEngine;
@@ -254,8 +255,8 @@ namespace _Inventory
                 }
                 Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, _maxStackSize);
                 Slots[fromIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(fromIndex)-rest);
-                UpdateSlotAtIndex(toIndex);
                 UpdateSlotAtIndex(fromIndex);
+                UpdateSlotAtIndex(toIndex);
                 return true;
             }
             return false;
