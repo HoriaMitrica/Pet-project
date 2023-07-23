@@ -12,7 +12,7 @@ namespace _Inventory
     public class InventoryUISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public int SlotIndex { get; private set; }
-        private Color _slotColor;
+        private Color _slotColor;   
         public Inventory Inventory { get; private set; }
         public ItemInfo ItemInfo { get; private set; }
         private int _amount;
@@ -116,7 +116,8 @@ namespace _Inventory
         }
 
         private void DragSetup(InventoryUISlot newSlot, int index)
-        {
+        { 
+            Debug.Log("DRAG START");
             _draggedItem.UpdateSlot(newSlot.ItemInfo, _amount);
             _draggedItem.gameObject.SetActive(true);
         }
@@ -129,13 +130,14 @@ namespace _Inventory
         private static Vector3 GetWorldPosition()
         {
             Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = Camera.main.nearClipPlane; // Set the Z position to the camera's near clip plane distance
+            mousePosition.z = Camera.main.nearClipPlane;
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             return worldPosition;
         }
 
         private void DragCleanUp()
         {
+            Debug.Log("DRAG END");
             _draggedItem.gameObject.SetActive(false);
             DropSetup(this);
         }
@@ -197,20 +199,25 @@ namespace _Inventory
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (button.isActiveAndEnabled)
+            if (!Input.GetMouseButton(0))
             {
-                var worldPosition=GetWorldPosition();   
-                RectTransform canvasRectTransform = _detailWidget.GetComponent<RectTransform>();
-                //worldPosition.x -= canvasRectTransform.rect.width * canvasRectTransform.pivot.x;
-                //worldPosition.y -= canvasRectTransform.rect.height * canvasRectTransform.pivot.y;
-                _detailWidget.transform.position = worldPosition;
-                _detailWidget.gameObject.SetActive(true);
-                _detailWidget.UpdateInfo(ItemInfo,_slotColor,_amount);
+                if (button.isActiveAndEnabled )
+                {
+                    var worldPosition=GetWorldPosition();   
+                    RectTransform canvasRectTransform = _detailWidget.GetComponent<RectTransform>();
+                    _detailWidget.transform.position = worldPosition;
+                    _detailWidget.gameObject.SetActive(true);
+                    _detailWidget.UpdateInfo(ItemInfo,_slotColor,_amount);
+                }
+            }
+            else
+            {
+                button.image.color=new Color(0.7f,0.3f,0f,0.7f);
             }
         }
-        
         public void OnPointerExit(PointerEventData eventData)
         {
+            button.image.color = new Color(0.45f, 0.45f, 0.45f, 0.7f);
             _detailWidget.gameObject.SetActive(false);
         }
     }

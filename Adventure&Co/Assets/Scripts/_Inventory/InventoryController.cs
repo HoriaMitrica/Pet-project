@@ -18,7 +18,7 @@ namespace _Inventory
             if (Input.GetKeyDown(KeyCode.T))
             {
                 inventory.AddToIndex(0, 1);
-            }
+            } 
         }
 
         public void CloseInventoryButton()

@@ -76,7 +76,18 @@ namespace _Inventory
 
         public (bool Success,int Remainder) AddItem(MasterItem itemClass, int amount)
         {
-            
+
+            var result=AddItemFunctionality(itemClass, amount);
+            if (result.Success)
+            {
+                mainWidget.AddItemsToQueue(itemClass,amount-result.Remainder);
+                return (Success: true, Remainder: result.Remainder);
+            }
+            return (Success: false, Remainder: result.Remainder);
+        }
+
+        public (bool Success, int Remainder) AddItemFunctionality(MasterItem itemClass, int amount)
+        {
             if (!itemClass.info.CanStack)
             {
                 var emptySlot =SearchEmptySlot();
@@ -86,7 +97,7 @@ namespace _Inventory
                     UpdateSlotAtIndex(emptySlot.Index);
                     if (amount > 1)
                     {
-                        var addItem=AddItem(itemClass, amount - 1);
+                        var addItem=AddItemFunctionality(itemClass, amount - 1);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
                 }
@@ -107,7 +118,7 @@ namespace _Inventory
                     {
                         Slots[emptySlot.Index] = new InventorySlot(itemClass, _maxStackSize);
                         UpdateSlotAtIndex(emptySlot.Index);
-                        var addItem=AddItem(itemClass, amount - _maxStackSize);
+                        var addItem=AddItemFunctionality(itemClass, amount - _maxStackSize);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
                     else
@@ -124,7 +135,7 @@ namespace _Inventory
                     {
                         Slots[freeStack.Index] = new InventorySlot(itemClass, _maxStackSize);
                         UpdateSlotAtIndex(freeStack.Index);
-                        var addItem=AddItem(itemClass, sum - _maxStackSize);
+                        var addItem=AddItemFunctionality(itemClass, sum - _maxStackSize);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
                     else
@@ -137,7 +148,6 @@ namespace _Inventory
             }
             return (Success:false,Remainder:0);
         }
-
         public int GetAmountAtIndex(int index)
         {
             return Slots[index].Amount;
