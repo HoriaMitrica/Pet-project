@@ -10,18 +10,16 @@ namespace _Inventory
     {
         [SerializeField] private Inventory inventory;
         [SerializeField] private ObtainedItem obtainedItem;
-        private List<InventorySlot> _obtainedItemsQueue=new List<InventorySlot>(); 
-         public InventoryGrid InventoryGrid { get; private set; }
-
-         private void Awake()
-         {
-             InventoryGrid = GetComponentInChildren<InventoryGrid>();
-         }
-
-         void Start()
+        private List<InventorySlot> _obtainedItemsQueue=new List<InventorySlot>();
+        [SerializeField] private InventoryGrid inventoryGrid;
+        [SerializeField] private CraftingMenu craftingMenu;
+        void Start()
         {
-            InventoryGrid.SetInventory(inventory);
-            InventoryGrid.GenerateSlots();
+            
+            inventoryGrid.SetInventory(inventory);
+            inventory.SetGrid(inventoryGrid);
+            inventoryGrid.GenerateSlots();
+            craftingMenu.InitializeCraftingMenu(inventory);
         }
 
          public void AddItemsToQueue(MasterItem itemClass,int amount)
@@ -30,7 +28,6 @@ namespace _Inventory
              if (_obtainedItemsQueue.Count > 0)
              {
                  _obtainedItemsQueue.Add(new InventorySlot(itemClass, amount));
-
              }
              else
              {

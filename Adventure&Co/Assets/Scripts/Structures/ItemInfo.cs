@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Enums;
 using UnityEngine;
 
@@ -17,8 +16,8 @@ namespace Structures
         public bool CanStack;
         public ItemCategory Category;
         public ItemRarity ItemRarity;
-        public Color RarityColor;
-
-
+        public Color RarityColor;   
+        public bool Craftable;
+        public InventorySlot[] Recipe;
     }
 }

@@ -9,7 +9,6 @@ namespace Items.pickups
     {
         [SerializeField] private MasterItem itemClass;
         [SerializeField] private int amount;
-        [SerializeField] private ObtainedItem obtainedItem;
         private SpriteRenderer _sprite;
 
         private void Awake()

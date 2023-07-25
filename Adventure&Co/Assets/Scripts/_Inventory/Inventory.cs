@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Enums;
 using Items;
 using Structures;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,29 +12,37 @@ namespace _Inventory
     {
         public int AmountOfSlots { get; private set; }
         private int _maxStackSize = 64;
-        
+        public List<MasterItem> UnlockedCraftableItems { get; private set; } = new List<MasterItem>();
         [SerializeField] private int startingNumberOfSlots;
         [SerializeField] private GameObject player;
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
+        [SerializeField] private CraftingMenu craftingMenu;
         [SerializeField] private ActionMenu actionMenu;
+        private InventoryGrid _grid;
         [SerializeField] private Vector3 actionMenuOffset;
-        private InventoryGrid _inventoryGrid;
         public InventorySlot[] Slots { get; private set; }
-
+        [SerializeField] private List<MasterItem> startingCraftableItems=new List<MasterItem>();
          void Awake()
         {
             ChangeAmountOfSlots(startingNumberOfSlots);
+            PopulateCraftableList();
             Slots = new InventorySlot[AmountOfSlots];
             Debug.Log("The slots are created");
         }
 
-         void Start()
+         public void PopulateCraftableList()
          {
-             _inventoryGrid = mainWidget.InventoryGrid;
+             foreach (var craftableItem in startingCraftableItems)
+             {
+                 UnlockedCraftableItems.Add(craftableItem);
+             }
          }
-
-        public void ChangeAmountOfSlots(int slots)
+         public void SetGrid(InventoryGrid grid)
+         {
+             _grid = grid;
+         }
+         public void ChangeAmountOfSlots(int slots)
         {
             AmountOfSlots = slots;
         }
@@ -49,7 +59,6 @@ namespace _Inventory
             }
             return (Success:false, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
         }
-
         public (bool Success,int Index) SearchEmptySlot()   
         {
             for (int i = 0; i < Slots.Length;i++)
@@ -81,6 +90,7 @@ namespace _Inventory
             if (result.Success)
             {
                 mainWidget.AddItemsToQueue(itemClass,amount-result.Remainder);
+                UpdateCraftingMenu();
                 return (Success: true, Remainder: result.Remainder);
             }
             return (Success: false, Remainder: result.Remainder);
@@ -155,7 +165,7 @@ namespace _Inventory
 
         public void UpdateSlotAtIndex(int index)
         {
-            _inventoryGrid.Slots[index].UpdateSlot();
+            _grid.Slots[index].UpdateSlot();
         }
 
         public bool RemoveItemAtIndex(int index, int amount)
@@ -166,12 +176,14 @@ namespace _Inventory
                 {
                     Slots[index] = null;
                     UpdateSlotAtIndex(index);
+                    UpdateCraftingMenu();
                     return true;
                 }
                 else
                 {
                     Slots[index] = new InventorySlot(Slots[index].ItemClass, Slots[index].Amount - amount);
                     UpdateSlotAtIndex(index);
+                    UpdateCraftingMenu();
                     return true;
                 }
             }
@@ -291,6 +303,49 @@ namespace _Inventory
             return false;
         }
 
+        public (int TotalAmount,List<int> SlotIndeces)GetTotalAmountOfItems(MasterItem itemClass)
+        {
+            List<int> indecesFound = new List<int>();
+            int amount = 0;
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                if (Slots[i] != null && Slots[i].ItemClass == itemClass)
+                {
+                    indecesFound.Add(i);
+                    amount += GetAmountAtIndex(i);
+                }
+            }
 
+            return (amount, indecesFound);
+        }
+
+        public bool RemoveItem(MasterItem itemClass, int amount)
+        {
+            var result = GetTotalAmountOfItems(itemClass);
+            if (result.TotalAmount >= amount)
+            {
+                var indeces = result.SlotIndeces;
+                foreach (var index in indeces)
+                {
+                    if (GetAmountAtIndex(index) >= amount)
+                    {
+                        RemoveItemAtIndex(index, amount);
+                        return true;
+                    }
+                    amount -= GetAmountAtIndex(index);
+                    RemoveItemAtIndex(index,GetAmountAtIndex(index));
+                    
+                }
+            }
+            return false;
+        }
+
+        public void UpdateCraftingMenu()
+        {
+            if (craftingMenu.GetItemClass()!=null)
+            {
+                craftingMenu.UpdateDetailWindow(craftingMenu.GetItemClass());
+            }
+        }
     }
 }

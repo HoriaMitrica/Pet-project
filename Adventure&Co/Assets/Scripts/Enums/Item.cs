@@ -7,7 +7,8 @@ namespace Enums
         Consumable,
         Equipment,
         QuestItem,
-        Readable
+        Readable,
+        Material
     }
     public enum ItemRarity
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Items
 {
+    [System.Serializable]
     public class MasterItem : MonoBehaviour
     {
         // Start is called before the first frame update
