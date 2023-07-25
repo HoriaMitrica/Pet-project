@@ -1125,6 +1125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
+  throwUI: {fileID: 0}
   useButton: {fileID: 0}
   splitButton: {fileID: 0}
   dropButton: {fileID: 0}

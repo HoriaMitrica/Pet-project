@@ -35,7 +35,7 @@ namespace _Inventory
                 useButton.transform.gameObject.SetActive(false);
             }
 
-            if (_info.Category == ItemCategories.QuestItem)
+            if (_info.Category == ItemCategory.QuestItem)
             {
                 dropButton.transform.gameObject.SetActive(false);
             }

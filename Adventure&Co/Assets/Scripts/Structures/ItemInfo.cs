@@ -14,7 +14,10 @@ namespace Structures
         public bool CanBeUsed;
         public string UseText;
         public bool CanStack;
-        public ItemCategories Category;
-
+        public ItemCategory Category;
+        public ItemRarity ItemRarity;
+        public Color RarityColor;   
+        public bool Craftable;
+        public InventorySlot[] Recipe;
     }
 }

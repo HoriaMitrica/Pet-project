@@ -6,6 +6,8 @@ namespace _Inventory
     {
         [SerializeField] private GameObject inventoryUI;
         [SerializeField] private Inventory inventory;
+        [SerializeField] private RemoveFromInventory throwWidget;
+        [SerializeField] private ActionMenu actionMenu;
 
         private void Update()
         {
@@ -15,16 +17,8 @@ namespace _Inventory
             }
             if (Input.GetKeyDown(KeyCode.T))
             {
-                inventory.SplitStack(0, 32);
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                inventory.SwapSlots(1, 2);
-            }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                inventory.UseItemAtIndex(0);
-            }
+                inventory.AddToIndex(0, 1);
+            } 
         }
 
         public void CloseInventoryButton()
@@ -32,12 +26,12 @@ namespace _Inventory
             if (inventoryUI.gameObject.activeInHierarchy)
             {
                 inventoryUI.gameObject.SetActive(false);
-                
+                throwWidget.gameObject.SetActive(false);
+                actionMenu.gameObject.SetActive(false);
             }
             else
-            {
+            {   
                 inventoryUI.gameObject.SetActive(true);
-                inventoryUI.GetComponentInChildren<RemoveFromInventory>().gameObject.SetActive(false);
             }
         }
     }

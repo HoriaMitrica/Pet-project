@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using Enums;
 using Items;
 using Structures;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,29 +12,37 @@ namespace _Inventory
     {
         public int AmountOfSlots { get; private set; }
         private int _maxStackSize = 64;
-        
+        public List<MasterItem> UnlockedCraftableItems { get; private set; } = new List<MasterItem>();
         [SerializeField] private int startingNumberOfSlots;
         [SerializeField] private GameObject player;
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
+        [SerializeField] private CraftingMenu craftingMenu;
         [SerializeField] private ActionMenu actionMenu;
+        private InventoryGrid _grid;
         [SerializeField] private Vector3 actionMenuOffset;
-        private InventoryGrid _inventoryGrid;
         public InventorySlot[] Slots { get; private set; }
-
+        [SerializeField] private List<MasterItem> startingCraftableItems=new List<MasterItem>();
          void Awake()
         {
             ChangeAmountOfSlots(startingNumberOfSlots);
+            PopulateCraftableList();
             Slots = new InventorySlot[AmountOfSlots];
             Debug.Log("The slots are created");
         }
 
-         void Start()
+         public void PopulateCraftableList()
          {
-             _inventoryGrid = mainWidget.InventoryGrid;
+             foreach (var craftableItem in startingCraftableItems)
+             {
+                 UnlockedCraftableItems.Add(craftableItem);
+             }
          }
-
-        public void ChangeAmountOfSlots(int slots)
+         public void SetGrid(InventoryGrid grid)
+         {
+             _grid = grid;
+         }
+         public void ChangeAmountOfSlots(int slots)
         {
             AmountOfSlots = slots;
         }
@@ -48,7 +59,6 @@ namespace _Inventory
             }
             return (Success:false, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
         }
-
         public (bool Success,int Index) SearchEmptySlot()   
         {
             for (int i = 0; i < Slots.Length;i++)
@@ -75,7 +85,19 @@ namespace _Inventory
 
         public (bool Success,int Remainder) AddItem(MasterItem itemClass, int amount)
         {
-            
+
+            var result=AddItemFunctionality(itemClass, amount);
+            if (result.Success)
+            {
+                mainWidget.AddItemsToQueue(itemClass,amount-result.Remainder);
+                UpdateCraftingMenu();
+                return (Success: true, Remainder: result.Remainder);
+            }
+            return (Success: false, Remainder: result.Remainder);
+        }
+
+        public (bool Success, int Remainder) AddItemFunctionality(MasterItem itemClass, int amount)
+        {
             if (!itemClass.info.CanStack)
             {
                 var emptySlot =SearchEmptySlot();
@@ -85,7 +107,7 @@ namespace _Inventory
                     UpdateSlotAtIndex(emptySlot.Index);
                     if (amount > 1)
                     {
-                        var addItem=AddItem(itemClass, amount - 1);
+                        var addItem=AddItemFunctionality(itemClass, amount - 1);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
                 }
@@ -106,7 +128,7 @@ namespace _Inventory
                     {
                         Slots[emptySlot.Index] = new InventorySlot(itemClass, _maxStackSize);
                         UpdateSlotAtIndex(emptySlot.Index);
-                        var addItem=AddItem(itemClass, amount - _maxStackSize);
+                        var addItem=AddItemFunctionality(itemClass, amount - _maxStackSize);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
                     else
@@ -123,7 +145,7 @@ namespace _Inventory
                     {
                         Slots[freeStack.Index] = new InventorySlot(itemClass, _maxStackSize);
                         UpdateSlotAtIndex(freeStack.Index);
-                        var addItem=AddItem(itemClass, sum - _maxStackSize);
+                        var addItem=AddItemFunctionality(itemClass, sum - _maxStackSize);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
                     else
@@ -136,7 +158,6 @@ namespace _Inventory
             }
             return (Success:false,Remainder:0);
         }
-
         public int GetAmountAtIndex(int index)
         {
             return Slots[index].Amount;
@@ -144,7 +165,7 @@ namespace _Inventory
 
         public void UpdateSlotAtIndex(int index)
         {
-            _inventoryGrid.Slots[index].UpdateSlot();
+            _grid.Slots[index].UpdateSlot();
         }
 
         public bool RemoveItemAtIndex(int index, int amount)
@@ -155,12 +176,14 @@ namespace _Inventory
                 {
                     Slots[index] = null;
                     UpdateSlotAtIndex(index);
+                    UpdateCraftingMenu();
                     return true;
                 }
                 else
                 {
                     Slots[index] = new InventorySlot(Slots[index].ItemClass, Slots[index].Amount - amount);
                     UpdateSlotAtIndex(index);
+                    UpdateCraftingMenu();
                     return true;
                 }
             }
@@ -229,7 +252,100 @@ namespace _Inventory
                 actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
                 inventorySlot.UpdateSlot();
             }
+        }
 
+        public bool SameClassSlots(int index1, int index2)
+        {
+            if(!IsSlotEmpty(index1) && !IsSlotEmpty(index2))
+                return Slots[index1].ItemClass == Slots[index2].ItemClass;
+            return false;
+        }
+        public bool AddToIndex(int fromIndex, int toIndex)
+        {
+            if (SameClassSlots(fromIndex, toIndex) &&
+                Slots[toIndex].Amount<_maxStackSize && 
+                Slots[fromIndex].ItemClass.info.CanStack)
+            {
+                int rest = _maxStackSize - GetAmountAtIndex(toIndex);
+                if (rest >= GetAmountAtIndex(fromIndex))
+                {
+                    Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(toIndex) + GetAmountAtIndex(fromIndex));
+                    Slots[fromIndex] = null;
+                    UpdateSlotAtIndex(fromIndex);
+                    UpdateSlotAtIndex(toIndex);
+                    return true;
+                }
+                Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, _maxStackSize);
+                Slots[fromIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(fromIndex)-rest);
+                UpdateSlotAtIndex(fromIndex);
+                UpdateSlotAtIndex(toIndex);
+                return true;
+            }
+            return false;
+        }
+
+        public bool SplitStackToIndex(int fromIndex,int toIndex,int amount)
+        {
+            if (IsSlotEmpty(toIndex) && !IsSlotEmpty(fromIndex))
+            {
+                if (GetItemAtIndex(fromIndex).ItemInfo.CanStack &&
+                    GetItemAtIndex(fromIndex).Amount > 1 &&
+                    GetItemAtIndex(fromIndex).Amount > amount)
+                {
+                    var localClass = Slots[fromIndex].ItemClass;
+                    Slots[fromIndex] = new InventorySlot(localClass, Slots[fromIndex].Amount - amount);
+                    Slots[toIndex] = new InventorySlot(localClass, amount);
+                    UpdateSlotAtIndex(fromIndex);
+                    UpdateSlotAtIndex(toIndex);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public (int TotalAmount,List<int> SlotIndeces)GetTotalAmountOfItems(MasterItem itemClass)
+        {
+            List<int> indecesFound = new List<int>();
+            int amount = 0;
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                if (Slots[i] != null && Slots[i].ItemClass == itemClass)
+                {
+                    indecesFound.Add(i);
+                    amount += GetAmountAtIndex(i);
+                }
+            }
+
+            return (amount, indecesFound);
+        }
+
+        public bool RemoveItem(MasterItem itemClass, int amount)
+        {
+            var result = GetTotalAmountOfItems(itemClass);
+            if (result.TotalAmount >= amount)
+            {
+                var indeces = result.SlotIndeces;
+                foreach (var index in indeces)
+                {
+                    if (GetAmountAtIndex(index) >= amount)
+                    {
+                        RemoveItemAtIndex(index, amount);
+                        return true;
+                    }
+                    amount -= GetAmountAtIndex(index);
+                    RemoveItemAtIndex(index,GetAmountAtIndex(index));
+                    
+                }
+            }
+            return false;
+        }
+
+        public void UpdateCraftingMenu()
+        {
+            if (craftingMenu.GetItemClass()!=null)
+            {
+                craftingMenu.UpdateDetailWindow(craftingMenu.GetItemClass());
+            }
         }
     }
 }

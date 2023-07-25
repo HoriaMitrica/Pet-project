@@ -12,9 +12,7 @@ namespace _Inventory
         private int _throwCount=1;
         private int _foundIndex;
         private float _lastClickTime; 
-        private float _doubleClickThreshold = 0.2f;
-        private bool _isPlusButtonHeld = false;
-        private bool _isMinusButtonHeld = false;
+        private float _doubleClickThreshold = 0.1f;
         private float _repeatRate = 0.1f;
         [SerializeField] private Inventory inventory;
         [SerializeField] private TMP_Text nameText;
@@ -24,7 +22,6 @@ namespace _Inventory
         {
             _foundIndex = index;
             _throwCount = 1;
-
             var itemAtIndex = inventory.GetItemAtIndex(index);
             _maxAmount = itemAtIndex.Amount;
             nameText.text = $"{itemAtIndex.ItemInfo.Name} x{_maxAmount}";
@@ -54,17 +51,14 @@ namespace _Inventory
                 IncrementNumber();
             }
             _lastClickTime = Time.time;
-            _isPlusButtonHeld = true;
             InvokeRepeating(nameof(IncrementNumber), _repeatRate, _repeatRate);
         }
         public void OnPlusButtonRelease()
         {
-            _isPlusButtonHeld = false;
             CancelInvoke(nameof(IncrementNumber));
         }
         public void OnMinusButtonRelease()
         {
-            _isMinusButtonHeld = false;
             CancelInvoke(nameof(DecrementNumber));
         }
         public void OnMinusButtonPress()
@@ -80,7 +74,6 @@ namespace _Inventory
                 DecrementNumber();
             }
             _lastClickTime = Time.time;
-            _isMinusButtonHeld = true;
             InvokeRepeating(nameof(DecrementNumber), _repeatRate, _repeatRate);
         }
         private void IncrementNumber()
