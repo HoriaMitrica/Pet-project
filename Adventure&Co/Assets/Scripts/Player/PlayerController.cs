@@ -1,4 +1,5 @@
 
+using _Inventory;
 using UnityEngine;
 
 namespace Player
@@ -7,6 +8,7 @@ namespace Player
 { 
     private PlayerStats _stats;
     private Rigidbody2D _rigidbody;
+    [SerializeField] public Inventory inventory;
     private Animator _animator;
     private float _horizontal;
     private float _attackspeed=1;
@@ -18,8 +20,8 @@ namespace Player
     private static readonly int AttackingStrong = Animator.StringToHash("AttackingStrong");
     private static readonly int AttackingBasic = Animator.StringToHash("AttackingBasic");
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
-
-    void Start()
+    
+    void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -28,7 +30,8 @@ namespace Player
 
     void Update()
     {
-        
+
+
         _horizontal = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space))
         {
