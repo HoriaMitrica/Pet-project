@@ -21,3 +21,9 @@ MonoBehaviour:
   Category: 3
   ItemRarity: 1255000003
   RarityColor: {r: 0.62, g: 0.86, b: 0.5, a: 1}
+  Craftable: 1
+  Recipe:
+  - ItemClass: {fileID: 2707407766984382411, guid: 64ab9a3b842b1db4596ee49c721db229, type: 3}
+    Amount: 1
+  - ItemClass: {fileID: 1405695905888251436, guid: 22a433371d2e012499f7df076b25e859, type: 3}
+    Amount: 1

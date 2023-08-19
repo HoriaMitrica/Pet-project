@@ -18,9 +18,8 @@ namespace _Inventory
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
         [SerializeField] private CraftingMenu craftingMenu;
-        [SerializeField] private ActionMenu actionMenu;
         private InventoryGrid _grid;
-        [SerializeField] private Vector3 actionMenuOffset;
+        
         public InventorySlot[] Slots { get; private set; }
         [SerializeField] private List<MasterItem> startingCraftableItems=new List<MasterItem>();
          void Awake()
@@ -243,16 +242,7 @@ namespace _Inventory
             return false;
         }
 
-        public void OnSlotClicked(InventoryUISlot inventorySlot, PointerEventData clickType)
-        {
-            if (clickType.button == PointerEventData.InputButton.Right)
-            {
-                actionMenu.UpdateMenu(inventorySlot.SlotIndex);
-                actionMenu.gameObject.SetActive(true);
-                actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
-                inventorySlot.UpdateSlot();
-            }
-        }
+
 
         public bool SameClassSlots(int index1, int index2)
         {

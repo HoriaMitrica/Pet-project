@@ -21,7 +21,10 @@ namespace _Inventory
         [SerializeField] public Button button;
         [SerializeField] private Image image;
         [SerializeField] private TMP_Text text;
+        private ActionMenu _actionMenu;
+        [SerializeField] private Vector3 actionMenuOffset;
         private DraggedItem _draggedItem;
+        private Canvas _actionMenuCanvas;
         private DetailUI _detailWidget;
         private RemoveFromInventory _throwWidget;
         private float _lastClickTime;
@@ -32,14 +35,15 @@ namespace _Inventory
             _imageVisibility = image.GetComponent<CanvasGroup>();
         }
         
-        public void FillVariables(int slotIndex, Inventory inventory, DraggedItem draggedItem,DetailUI detailWidget,RemoveFromInventory throwWidget)
+        public void FillVariables(int slotIndex, Inventory inventory, DraggedItem draggedItem,DetailUI detailWidget,RemoveFromInventory throwWidget,ActionMenu actionMenu)
         {
             _throwWidget = throwWidget;
             _draggedItem = draggedItem;
             _detailWidget = detailWidget;
             SlotIndex = slotIndex;
             Inventory = inventory;
-            
+            _actionMenu = actionMenu;
+            _actionMenuCanvas = _actionMenu.GetComponent<Canvas>();
             AddClickFunctionality(this, SlotIndex);
             AddDragDropFunctionality(this, SlotIndex);
             
@@ -75,7 +79,7 @@ namespace _Inventory
             EventTrigger eventTrigger = slot.button.GetComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener((data) => { Inventory.OnSlotClicked(slot, (PointerEventData)data); });
+            entry.callback.AddListener((data) => { OnSlotClicked(slot, (PointerEventData)data); });
             eventTrigger.triggers.Add(entry);
 
             entry = new EventTrigger.Entry();
@@ -83,7 +87,16 @@ namespace _Inventory
             entry.callback.AddListener((data) => { DoubleClicked(index); });
             eventTrigger.triggers.Add(entry);
         }
-
+        public void OnSlotClicked(InventoryUISlot inventorySlot, PointerEventData clickType)
+        {
+            if (clickType.button == PointerEventData.InputButton.Right)
+            {
+                _actionMenu.UpdateMenu(inventorySlot.SlotIndex);
+                _actionMenuCanvas.enabled=true;
+                _actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
+                inventorySlot.UpdateSlot();
+            }
+        }
         private void DoubleClicked(int index)
         {
             float timeSinceLastClick = Time.time - _lastClickTime;
