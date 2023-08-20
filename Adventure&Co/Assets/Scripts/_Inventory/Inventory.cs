@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Enums;
 using Items;
 using Structures;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,8 +18,10 @@ namespace _Inventory
         [SerializeField] private GameObject player;
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
+        [SerializeField] private TMP_Text coinsText;
         [SerializeField] private CraftingMenu craftingMenu;
         private InventoryGrid _grid;
+        public int Coins { get; private set; }
         
         public InventorySlot[] Slots { get; private set; }
         [SerializeField] private List<MasterItem> startingCraftableItems=new List<MasterItem>();
@@ -28,8 +31,24 @@ namespace _Inventory
             PopulateCraftableList();
             Slots = new InventorySlot[AmountOfSlots];
             Debug.Log("The slots are created");
+            Coins = 200;
+            UpdateCoinsText();
         }
 
+         private void UpdateCoinsText()
+         {
+             coinsText.text = Coins.ToString();
+         }
+         public void IncreaseMoney(int amount)
+         {
+             Coins += amount;
+             UpdateCoinsText();
+         }
+         public void DecreaseMoney(int amount)
+         {
+             Coins -= amount;
+             UpdateCoinsText();
+         }
          public void PopulateCraftableList()
          {
              foreach (var craftableItem in startingCraftableItems)
@@ -324,12 +343,10 @@ namespace _Inventory
                     }
                     amount -= GetAmountAtIndex(index);
                     RemoveItemAtIndex(index,GetAmountAtIndex(index));
-                    
                 }
             }
             return false;
         }
-
         public void UpdateCraftingMenu()
         {
             if (craftingMenu.GetItemClass()!=null)

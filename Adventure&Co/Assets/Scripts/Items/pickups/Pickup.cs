@@ -28,7 +28,6 @@ namespace Items.pickups
         {
             if (_playerController != null && Input.GetKeyDown(KeyCode.E))
             {
-                
                 var inventoryRef = _playerController.inventory;
                 var addItem = inventoryRef.AddItem(itemClass, amount);
                 if (addItem.Success)

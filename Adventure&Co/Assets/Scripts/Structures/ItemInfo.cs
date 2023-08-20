@@ -19,5 +19,8 @@ namespace Structures
         public Color RarityColor;   
         public bool Craftable;
         public InventorySlot[] Recipe;
+        [Header("Shop Information")]
+        public int Price;
+        public int RetailPrice => Mathf.FloorToInt(Price * 0.75f);
     }
 }

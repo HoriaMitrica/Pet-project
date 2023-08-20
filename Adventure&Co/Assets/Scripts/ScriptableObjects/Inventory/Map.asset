@@ -27,3 +27,4 @@ MonoBehaviour:
     Amount: 1
   - ItemClass: {fileID: 1405695905888251436, guid: 22a433371d2e012499f7df076b25e859, type: 3}
     Amount: 1
+  Price: 150

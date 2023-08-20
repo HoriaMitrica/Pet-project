@@ -45,7 +45,6 @@ namespace _Inventory
 
         private void GenerateCraftableList()
         {
-            
             foreach (var entry in _craftableEntries)
             {
                 Destroy(entry.gameObject);

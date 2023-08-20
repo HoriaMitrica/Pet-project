@@ -30,8 +30,6 @@ namespace Player
 
     void Update()
     {
-
-
         _horizontal = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -46,17 +44,6 @@ namespace Player
             _animator.SetTrigger(AttackingStrong);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            _attackspeed+=0.1f;
-            _animator.SetFloat(AttackSpeed,_attackspeed);
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            _attackspeed-=0.1f;
-            _animator.SetFloat(AttackSpeed,_attackspeed);
-        }
-        
         Flip();
     }
 
