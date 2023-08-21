@@ -18,15 +18,7 @@ namespace _Inventory
             _craftingMenu = craftingMenu;
             nameText.text = itemClass.info.Name;
         }
-
-        public void DisableButton()
-        {
-            selectButton.enabled = false;
-        }
-        public void EnableButton()
-        {
-            selectButton.enabled = true;
-        }
+        
         public void OnButtonPressed()
         {
             _craftingMenu.OnCraftableClicked(this);

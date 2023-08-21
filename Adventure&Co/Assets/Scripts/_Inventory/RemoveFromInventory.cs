@@ -12,7 +12,7 @@ namespace _Inventory
         private int _throwCount=1;
         private int _foundIndex;
         private float _lastClickTime; 
-        private float _doubleClickThreshold = 0.1f;
+        private float _doubleClickThreshold = 0.12f;
         private float _repeatRate = 0.1f;
         [SerializeField] private Inventory inventory;
         [SerializeField] private TMP_Text nameText;

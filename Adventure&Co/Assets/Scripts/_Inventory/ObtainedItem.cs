@@ -11,7 +11,6 @@ namespace _Inventory
     {
         private float fadeInDuration = 1.0f;
         private float fadeOutDuration = 1.0f;
-        
         [SerializeField] private float visibleDuration = 1.0f;
         [SerializeField] private TMP_Text amountText;
         [SerializeField] private TMP_Text obtainedText;
@@ -35,7 +34,7 @@ namespace _Inventory
             animator.SetTrigger("FadeOut");
             
             yield return new WaitForSeconds(fadeOutDuration);
-            gameObject.SetActive(false);
+            gameObject.GetComponent<Canvas>().enabled = false;
             mainWidget.OnObtainMessageEnd();
         }
 

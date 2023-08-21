@@ -25,3 +25,4 @@ MonoBehaviour:
   Recipe:
   - ItemClass: {fileID: 5856847387992145803, guid: 25e129c18f7f5af4f8680588c1d6539f, type: 3}
     Amount: 2
+  Price: 100

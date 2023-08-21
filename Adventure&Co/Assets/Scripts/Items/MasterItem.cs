@@ -10,7 +10,7 @@ namespace Items
     {
         // Start is called before the first frame update
         public ItemInfo info;
-        private Color GetRarityColor(ItemRarity rarity)
+        /*private Color GetRarityColor(ItemRarity rarity)
         {
             switch (rarity)
             {
@@ -31,7 +31,7 @@ namespace Items
                 default:
                     return Color.white; 
             }
-        }
+        }*/
         public void Start()
         {
             Debug.Log("THIS IS MASTER ITEM");

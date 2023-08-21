@@ -15,10 +15,15 @@ namespace _Inventory
         [SerializeField] private Button dropButton;
         [SerializeField] private Button cancelButton;
         [SerializeField] private TMP_Text useText;
+        private Canvas _canvas;
         private int _index;
         private int _amount;
         private ItemInfo _info;
-        
+
+        void Start()
+        {
+            _canvas = GetComponent<Canvas>();
+        }
         public void UpdateMenu(int newIndex)
         {
             _index = newIndex;
@@ -54,16 +59,15 @@ namespace _Inventory
             }
         }
 
-
         public void OnUseButtonPress()
         {
             inventory.UseItemAtIndex(_index);
-            transform.gameObject.SetActive(false);
+            _canvas.enabled = false;
         }
         public void OnSplitButtonPress()
         {
             inventory.SplitStack(_index, _amount / 2);
-            transform.gameObject.SetActive(false);
+            _canvas.enabled = false;
         }
         public void OnThrowButtonPress()
         {
@@ -76,11 +80,11 @@ namespace _Inventory
             {
                 inventory.RemoveItemAtIndex(_index, 1);
             }
-            transform.gameObject.SetActive(false);
+            _canvas.enabled = false;
         }
         public void OnCancelButtonPress()
         {
-            transform.gameObject.SetActive(false);
+            _canvas.enabled = false;
         }
     }
     }

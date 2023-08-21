@@ -13,6 +13,7 @@ namespace _Inventory
         private List<InventorySlot> _obtainedItemsQueue=new List<InventorySlot>();
         [SerializeField] private InventoryGrid inventoryGrid;
         [SerializeField] private CraftingMenu craftingMenu;
+        private Canvas _obtainedItemCanvas;
         void Start()
         {
             
@@ -20,6 +21,7 @@ namespace _Inventory
             inventory.SetGrid(inventoryGrid);
             inventoryGrid.GenerateSlots();
             craftingMenu.InitializeCraftingMenu(inventory);
+            _obtainedItemCanvas = obtainedItem.GetComponent<Canvas>();
         }
 
          public void AddItemsToQueue(MasterItem itemClass,int amount)
@@ -33,7 +35,7 @@ namespace _Inventory
              {
                  _obtainedItemsQueue.Add(new InventorySlot(itemClass, amount));
                  obtainedItem.UpdateWidget(itemClass,amount);
-                 obtainedItem.gameObject.SetActive(true);
+                 _obtainedItemCanvas.enabled=true;
                  obtainedItem.ShowObtainedItem();
              }
          }
@@ -43,7 +45,7 @@ namespace _Inventory
              if (_obtainedItemsQueue.Count > 0)
              {
                  obtainedItem.UpdateWidget(_obtainedItemsQueue[0].ItemClass,_obtainedItemsQueue[0].Amount);
-                 obtainedItem.gameObject.SetActive(true);
+                 _obtainedItemCanvas.enabled=true;
                  obtainedItem.ShowObtainedItem();
              }
          }
