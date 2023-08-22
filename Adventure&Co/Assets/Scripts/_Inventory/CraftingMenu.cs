@@ -35,7 +35,6 @@ namespace _Inventory
             rightSide.GetComponent<CanvasGroup>().alpha = 1;
             _currentCraftable = clickedCraftableEntry;
             UpdateDetailWindow(_currentCraftable.ItemClass);
-            
         }
 
         public void InitializeCraftingMenu(Inventory inventory)
@@ -46,7 +45,6 @@ namespace _Inventory
 
         private void GenerateCraftableList()
         {
-            
             foreach (var entry in _craftableEntries)
             {
                 Destroy(entry.gameObject);
@@ -125,9 +123,10 @@ namespace _Inventory
             {
                 foreach (var itemToRemove in _currentItemInfo.Recipe)
                 {
+                    Debug.Log("REMOVING "+itemToRemove.ItemClass.name +itemToRemove.Amount);
                     Inventory.RemoveItem(itemToRemove.ItemClass, itemToRemove.Amount);
-                    craftButton.enabled = CanBeCrafted();
                 }
+                craftButton.enabled = CanBeCrafted();
             }
         }
 

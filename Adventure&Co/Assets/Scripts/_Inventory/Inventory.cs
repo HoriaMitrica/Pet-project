@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Enums;
 using Items;
 using Structures;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,10 +18,11 @@ namespace _Inventory
         [SerializeField] private GameObject player;
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
+        [SerializeField] private TMP_Text coinsText;
         [SerializeField] private CraftingMenu craftingMenu;
-        [SerializeField] private ActionMenu actionMenu;
         private InventoryGrid _grid;
-        [SerializeField] private Vector3 actionMenuOffset;
+        public int Coins { get; private set; }
+        
         public InventorySlot[] Slots { get; private set; }
         [SerializeField] private List<MasterItem> startingCraftableItems=new List<MasterItem>();
          void Awake()
@@ -29,8 +31,24 @@ namespace _Inventory
             PopulateCraftableList();
             Slots = new InventorySlot[AmountOfSlots];
             Debug.Log("The slots are created");
+            Coins = 200;
+            UpdateCoinsText();
         }
 
+         private void UpdateCoinsText()
+         {
+             coinsText.text = Coins.ToString();
+         }
+         public void IncreaseMoney(int amount)
+         {
+             Coins += amount;
+             UpdateCoinsText();
+         }
+         public void DecreaseMoney(int amount)
+         {
+             Coins -= amount;
+             UpdateCoinsText();
+         }
          public void PopulateCraftableList()
          {
              foreach (var craftableItem in startingCraftableItems)
@@ -110,6 +128,7 @@ namespace _Inventory
                         var addItem=AddItemFunctionality(itemClass, amount - 1);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
+                    return (Success:true,Remainder:0);
                 }
                 else
                 {
@@ -242,18 +261,7 @@ namespace _Inventory
 
             return false;
         }
-
-        public void OnSlotClicked(InventoryUISlot inventorySlot, PointerEventData clickType)
-        {
-            if (clickType.button == PointerEventData.InputButton.Right)
-            {
-                actionMenu.UpdateMenu(inventorySlot.SlotIndex);
-                actionMenu.gameObject.SetActive(true);
-                actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
-                inventorySlot.UpdateSlot();
-            }
-        }
-
+        
         public bool SameClassSlots(int index1, int index2)
         {
             if(!IsSlotEmpty(index1) && !IsSlotEmpty(index2))
@@ -334,12 +342,10 @@ namespace _Inventory
                     }
                     amount -= GetAmountAtIndex(index);
                     RemoveItemAtIndex(index,GetAmountAtIndex(index));
-                    
                 }
             }
             return false;
         }
-
         public void UpdateCraftingMenu()
         {
             if (craftingMenu.GetItemClass()!=null)

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: HealthPotion
   Description: Gives you some points of health
-  Icon: {fileID: 21300000, guid: f788392a5e8bcb44ea5691bf6a9fa515, type: 3}
+  Icon: {fileID: 21300000, guid: a43a7ee9dff3d54408f51d0a5f68f49b, type: 3}
   CanBeUsed: 1
   UseText: Drink
   CanStack: 1
@@ -25,3 +25,4 @@ MonoBehaviour:
   Recipe:
   - ItemClass: {fileID: 5856847387992145803, guid: 25e129c18f7f5af4f8680588c1d6539f, type: 3}
     Amount: 2
+  Price: 100

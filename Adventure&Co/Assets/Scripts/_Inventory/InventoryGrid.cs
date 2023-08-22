@@ -13,6 +13,7 @@ namespace _Inventory
         [SerializeField] private DraggedItem draggedItem;
         [SerializeField] private DetailUI detailWidget;
         [SerializeField] private RemoveFromInventory throwWidget;
+        [SerializeField] private ActionMenu actionMenu;
         public Inventory Inventory { get; private set; }
         public InventoryUISlot[] Slots { get; private set; }
 
@@ -26,7 +27,7 @@ namespace _Inventory
             for(int i=0;i<Inventory.Slots.Length;i++)
             {
                 InventoryUISlot newSlot = Instantiate(slot, transform, false);
-                newSlot.FillVariables(i,Inventory,draggedItem,detailWidget,throwWidget);
+                newSlot.FillVariables(i,Inventory,draggedItem,detailWidget,throwWidget,actionMenu);
                 Slots[i]=newSlot;
             }   
         }
