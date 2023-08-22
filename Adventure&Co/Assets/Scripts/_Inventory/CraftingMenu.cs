@@ -123,6 +123,7 @@ namespace _Inventory
             {
                 foreach (var itemToRemove in _currentItemInfo.Recipe)
                 {
+                    Debug.Log("REMOVING "+itemToRemove.ItemClass.name +itemToRemove.Amount);
                     Inventory.RemoveItem(itemToRemove.ItemClass, itemToRemove.Amount);
                 }
                 craftButton.enabled = CanBeCrafted();

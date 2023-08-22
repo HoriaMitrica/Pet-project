@@ -128,6 +128,7 @@ namespace _Inventory
                         var addItem=AddItemFunctionality(itemClass, amount - 1);
                         return (Success:true,Remainder:addItem.Remainder);
                     }
+                    return (Success:true,Remainder:0);
                 }
                 else
                 {
@@ -260,9 +261,7 @@ namespace _Inventory
 
             return false;
         }
-
-
-
+        
         public bool SameClassSlots(int index1, int index2)
         {
             if(!IsSlotEmpty(index1) && !IsSlotEmpty(index2))

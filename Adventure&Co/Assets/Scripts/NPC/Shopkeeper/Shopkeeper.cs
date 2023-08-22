@@ -61,7 +61,7 @@ namespace NPC.Shopkeeper
                 _playerController = null;
                 _nameCanvas.enabled = false;
                 shopReference.GetComponent<Canvas>().enabled = false;
-                shopReference.ToggleShopOpen();
+                shopReference.CloseShop();
             }
         }
     }

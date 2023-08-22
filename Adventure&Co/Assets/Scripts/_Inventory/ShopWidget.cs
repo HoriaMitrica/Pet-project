@@ -29,15 +29,19 @@ public class ShopWidget : MonoBehaviour
                 _shopEntries.Add(shopEntry);
             } 
         }
-        ToggleShopOpen();
+        OpenShop();
     }
     public void OnCloseButtonPress()
     {
         GetComponent<Canvas>().enabled = false;
-        ToggleShopOpen();
+        CloseShop();
     }
-    public void ToggleShopOpen()
+    public void OpenShop()
     {
-        IsShopOpen = !IsShopOpen;
+        IsShopOpen = true;
+    }
+    public void CloseShop()
+    {
+        IsShopOpen = false;
     }
 }
