@@ -23,3 +23,4 @@ MonoBehaviour:
   RarityColor: {r: 1, g: 1, b: 1, a: 1}
   Craftable: 0
   Recipe: []
+  Price: 50

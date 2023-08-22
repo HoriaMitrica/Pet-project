@@ -10,9 +10,11 @@ namespace _Inventory
     {
         [SerializeField] private Inventory inventory;
         [SerializeField] private RemoveFromInventory throwUI;
+        [SerializeField] private ShopWidget shopReference;
         [SerializeField] private Button useButton;
         [SerializeField] private Button splitButton;
         [SerializeField] private Button dropButton;
+        [SerializeField] private TMP_Text dropText;
         [SerializeField] private Button cancelButton;
         [SerializeField] private TMP_Text useText;
         private Canvas _canvas;
@@ -46,6 +48,14 @@ namespace _Inventory
             }
             else
             {
+                if (shopReference.IsShopOpen)
+                {
+                    dropText.text = "Sell";
+                }
+                else
+                {
+                    dropText.text = "Throw";
+                }
                 dropButton.transform.gameObject.SetActive(true);
             }
 

@@ -9,6 +9,7 @@ public class ShopWidget : MonoBehaviour
     [SerializeField] private ShopEntry shopEntry;
     [SerializeField] private GameObject shopEntryContainer;
     [SerializeField] private Inventory inventory;
+    public bool IsShopOpen { get; private set; }
     private List<ShopEntry> _shopEntries=new List<ShopEntry>();
     private int _lastID = -1;
     public void GenerateEntries(List<MasterItem> itemClasses,int id)
@@ -28,10 +29,15 @@ public class ShopWidget : MonoBehaviour
                 _shopEntries.Add(shopEntry);
             } 
         }
-
+        ToggleShopOpen();
     }
     public void OnCloseButtonPress()
     {
         GetComponent<Canvas>().enabled = false;
+        ToggleShopOpen();
+    }
+    public void ToggleShopOpen()
+    {
+        IsShopOpen = !IsShopOpen;
     }
 }

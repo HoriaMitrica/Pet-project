@@ -25,11 +25,11 @@ public class ShopEntry : MonoBehaviour
         _shopWidget = shopWidget;
         nameText.text = itemClass.info.Name;
         icon.sprite = itemClass.info.Icon;
-        priceText.text = itemClass.info.RetailPrice.ToString();
+        priceText.text = itemClass.info.Price.ToString();
     }
     private void Update()
     {
-        if (_inventory.Coins < _itemClass.info.RetailPrice * slider.value)
+        if (_inventory.Coins < _itemClass.info.Price * slider.value)
         {
             priceText.color = Color.red;
             buyButton.interactable = false;
@@ -40,11 +40,12 @@ public class ShopEntry : MonoBehaviour
             buyButton.interactable = true;
         }
         amountText.text = slider.value.ToString();
-        priceText.text = (_itemClass.info.RetailPrice * slider.value).ToString();
+        priceText.text = (_itemClass.info.Price * slider.value).ToString();
     }
 
     public void OnBuyClicked()
     {
         _inventory.AddItem(_itemClass,Convert.ToInt32(slider.value));
+        _inventory.DecreaseMoney(_itemClass.info.Price *Convert.ToInt32(slider.value));
     }
 }

@@ -42,6 +42,7 @@ namespace NPC.Shopkeeper
         {
             shopReference.GenerateEntries(items,_id);
             shopReference.GetComponent<Canvas>().enabled = true;
+            _nameCanvas.enabled = false;
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -60,6 +61,7 @@ namespace NPC.Shopkeeper
                 _playerController = null;
                 _nameCanvas.enabled = false;
                 shopReference.GetComponent<Canvas>().enabled = false;
+                shopReference.ToggleShopOpen();
             }
         }
     }
