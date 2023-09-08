@@ -32,6 +32,10 @@ namespace _Inventory
         }
         public void OnCraftableClicked(CraftableEntry clickedCraftableEntry)
         {
+            if (_currentCraftable != null)
+            {
+                _currentCraftable.ToggleInteractable();
+            }
             rightSide.GetComponent<CanvasGroup>().alpha = 1;
             _currentCraftable = clickedCraftableEntry;
             UpdateDetailWindow(_currentCraftable.ItemClass);
@@ -54,7 +58,7 @@ namespace _Inventory
             {
                 CraftableEntry newEntry = Instantiate(craftableEntry, craftableEntryContainer.transform, false);
                 newEntry.InitializeEntry(this,craftableItem);
-                _craftableEntries.Add(craftableEntry);
+                _craftableEntries.Add(newEntry);
             }
         }
 
@@ -108,16 +112,16 @@ namespace _Inventory
                     entry.UpdateEntry();
                 }
             }
-            craftButton.enabled = CanBeCrafted();
+            craftButton.interactable = CanBeCrafted();
         }
 
         public void OnCraftButtonClicked()
         {
-            craftButton.enabled = false;
+            craftButton.interactable = false;
             var result = Inventory.AddItem(_currentItemClass, 1);
             if (!result.Success)
             {
-                craftButton.enabled = CanBeCrafted();
+                craftButton.interactable = CanBeCrafted();
             }
             else
             {
@@ -126,7 +130,7 @@ namespace _Inventory
                     Debug.Log("REMOVING "+itemToRemove.ItemClass.name +itemToRemove.Amount);
                     Inventory.RemoveItem(itemToRemove.ItemClass, itemToRemove.Amount);
                 }
-                craftButton.enabled = CanBeCrafted();
+                craftButton.interactable = CanBeCrafted();
             }
         }
 

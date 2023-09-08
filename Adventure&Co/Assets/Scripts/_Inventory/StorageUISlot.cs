@@ -9,11 +9,11 @@ using Button = UnityEngine.UI.Button;
 
 namespace _Inventory
 {
-    public class InventoryUISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class StorageUISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public int SlotIndex { get; private set; }
-        private Color _slotColor;   
-        public Inventory Inventory { get; private set; }
+        private Color _slotColor;
+        public Storage Storage { get; private set; }
         public ItemInfo ItemInfo { get; private set; }
         private int _amount;
         private CanvasGroup _imageVisibility;
@@ -21,10 +21,7 @@ namespace _Inventory
         [SerializeField] public Button button;
         [SerializeField] private Image image;
         [SerializeField] private TMP_Text text;
-        private ActionMenu _actionMenu;
-        [SerializeField] private Vector3 actionMenuOffset;
         private DraggedItem _draggedItem;
-        private Canvas _actionMenuCanvas;
         private DetailUI _detailWidget;
         private RemoveFromInventory _throwWidget;
         private float _lastClickTime;
@@ -35,22 +32,19 @@ namespace _Inventory
             _imageVisibility = image.GetComponent<CanvasGroup>();
         }
         
-        public void FillVariables(int slotIndex, Inventory inventory, DraggedItem draggedItem,DetailUI detailWidget,RemoveFromInventory throwWidget,ActionMenu actionMenu)
+        public void FillVariables(int slotIndex, Storage storage, DraggedItem draggedItem,DetailUI detailWidget)
         {
-            _throwWidget = throwWidget;
             _draggedItem = draggedItem;
             _detailWidget = detailWidget;
             SlotIndex = slotIndex;
-            Inventory = inventory;
-            _actionMenu = actionMenu;
-            _actionMenuCanvas = _actionMenu.GetComponent<Canvas>();
+            Storage = storage;
             AddClickFunctionality(this, SlotIndex);
             AddDragDropFunctionality(this, SlotIndex);
         }
 
         public void UpdateSlot()
         {
-            if (Inventory.IsSlotEmpty(SlotIndex))
+            if (Storage.IsSlotEmpty(SlotIndex))
             {
                 button.enabled = false;
                 ItemInfo = null;
@@ -59,7 +53,7 @@ namespace _Inventory
             else
             {
                 button.enabled = true;
-                var ItemAtIndex = Inventory.GetItemAtIndex(SlotIndex);
+                var ItemAtIndex = Storage.GetItemAtIndex(SlotIndex);
                 ItemInfo = ItemAtIndex.ItemInfo;
                 _amount = ItemAtIndex.Amount;
                 _slotColor = ItemInfo.RarityColor;
@@ -75,41 +69,25 @@ namespace _Inventory
                 }
             }
         }
-        private void AddClickFunctionality(InventoryUISlot slot, int index)
+        private void AddClickFunctionality(StorageUISlot slot, int index)
         {
             EventTrigger eventTrigger = slot.button.GetComponent<EventTrigger>();
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener((data) => { OnSlotClicked(slot, (PointerEventData)data); });
-            eventTrigger.triggers.Add(entry);
-
-            entry = new EventTrigger.Entry();
+            EventTrigger.Entry entry = new EventTrigger.Entry(); 
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((data) => { DoubleClicked(index); });
             eventTrigger.triggers.Add(entry);
-        }
-        public void OnSlotClicked(InventoryUISlot inventorySlot, PointerEventData clickType)
-        {
-            if (clickType.button == PointerEventData.InputButton.Right)
-            {
-                _actionMenu.UpdateMenu(inventorySlot.SlotIndex);
-                _actionMenuCanvas.enabled=true;
-                _actionMenu.transform.position = inventorySlot.transform.position+actionMenuOffset;
-                inventorySlot.UpdateSlot();
-            }
         }
         private void DoubleClicked(int index)
         {
             float timeSinceLastClick = Time.time - _lastClickTime;
             if (timeSinceLastClick < _doubleClickThreshold)
             {
-                Inventory.UseItemAtIndex(index);
+                Debug.Log("Storage Item Double Clicked");
             }
-
             _lastClickTime = Time.time;
         }
 
-        private void AddDragDropFunctionality(InventoryUISlot slot, int index)
+        private void AddDragDropFunctionality(StorageUISlot slot, int index)
         {
             EventTrigger eventTrigger = slot.button.GetComponent<EventTrigger>();
 
@@ -129,7 +107,7 @@ namespace _Inventory
             eventTrigger.triggers.Add(entry);
         }
 
-        private void DragSetup(InventoryUISlot newSlot, int index)
+        private void DragSetup(StorageUISlot newSlot, int index)
         {
             if (ItemInfo != null)
             {
@@ -159,21 +137,21 @@ namespace _Inventory
                 DropSetup(this);
             }
         }
-        private void DropSetup(InventoryUISlot slot)
+        private void DropSetup(StorageUISlot slot)
         {
-            InventoryUISlot targetSlot = GetDropTargetSlot();
+            StorageUISlot targetSlot = GetDropTargetSlot();
             if (targetSlot != null && targetSlot != slot)
             {
                 ItemInfo tempItemInfo = slot.ItemInfo;
                 var fromIndex = slot.SlotIndex;
                 var toIndex = targetSlot.SlotIndex;
-                if (Inventory.SameClassSlots(fromIndex, toIndex))
+                if (Storage.SameClassSlots(fromIndex, toIndex))
                 {
-                    Inventory.AddToIndex(fromIndex, toIndex);
+                    Storage.AddToIndex(fromIndex, toIndex);
                 }
                 else
                 {
-                    if (Inventory.SwapSlots(fromIndex, toIndex))
+                    if (Storage.SwapSlots(fromIndex, toIndex))
                     {
                         Debug.Log("SUCCESS");
                     }
@@ -183,20 +161,20 @@ namespace _Inventory
             {
                 if (ItemInfo.Category != ItemCategory.QuestItem)
                 {
-                    if (Inventory.GetItemAtIndex(SlotIndex).Amount > 1)
+                    if (Storage.GetItemAtIndex(SlotIndex).Amount > 1)
                     {
                         _throwWidget.gameObject.SetActive(true);
                         _throwWidget.UpdateWidget(SlotIndex);
                     }
                     else
                     {
-                        Inventory.RemoveItemAtIndex(SlotIndex, 1);
+                        Storage.RemoveItemAtIndex(SlotIndex, 1);
                     }
                 }
             }
             _draggedItem.gameObject.SetActive(false);
         }
-        private InventoryUISlot GetDropTargetSlot()
+        private StorageUISlot GetDropTargetSlot()
         {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = Camera.main.nearClipPlane;
@@ -205,7 +183,7 @@ namespace _Inventory
             foreach (Collider2D collider in hitColliders)
             {
 
-                InventoryUISlot targetSlot = collider.GetComponent<InventoryUISlot>();
+                StorageUISlot targetSlot = collider.GetComponent<StorageUISlot>();
                 if (targetSlot != null)
                 {
                     return targetSlot;

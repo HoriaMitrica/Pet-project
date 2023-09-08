@@ -89,6 +89,10 @@ namespace _Inventory
             else
             {
                 inventory.RemoveItemAtIndex(_index, 1);
+                if (shopReference.IsShopOpen)
+                {
+                    inventory.IncreaseMoney(_info.RetailPrice);
+                }
             }
             _canvas.enabled = false;
         }
