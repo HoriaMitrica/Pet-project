@@ -8,22 +8,35 @@ namespace _Inventory
 {
     public class MainWidget : MonoBehaviour
     {
-        [SerializeField] private Inventory inventory;
-        [SerializeField] private ObtainedItem obtainedItem;
         private List<InventorySlot> _obtainedItemsQueue=new List<InventorySlot>();
+        [SerializeField] private Inventory inventory;
+        [SerializeField] private Storage storage;
+        [SerializeField] private ObtainedItem obtainedItem;
         [SerializeField] private InventoryGrid inventoryGrid;
+        [SerializeField] private StorageGrid storageGrid;
         [SerializeField] private CraftingMenu craftingMenu;
         private Canvas _obtainedItemCanvas;
+        private Canvas _storageUiCanvas;
         void Start()
         {
-            
-            inventoryGrid.SetInventory(inventory);
             inventory.SetGrid(inventoryGrid);
+            storage.SetGrid(storageGrid);
             inventoryGrid.GenerateSlots();
+            //storageGrid.GenerateSlots();
             craftingMenu.InitializeCraftingMenu(inventory);
             _obtainedItemCanvas = obtainedItem.GetComponent<Canvas>();
         }
+        public void HideStorage()
+        {
+            _storageUiCanvas.enabled = false;
+            inventory.isStorageOpen = false;
+        }
 
+        public void ShowStorage()
+        {
+            _storageUiCanvas.enabled = true;
+            inventory.isStorageOpen = true;
+        }
          public void AddItemsToQueue(MasterItem itemClass,int amount)
          {
 
@@ -49,5 +62,7 @@ namespace _Inventory
                  obtainedItem.ShowObtainedItem();
              }
          }
+
+
     }
 }

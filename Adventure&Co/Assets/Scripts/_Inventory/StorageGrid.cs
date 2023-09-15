@@ -7,28 +7,35 @@ namespace _Inventory
 {
     public class StorageGrid : MonoBehaviour
     {
-         
-        [SerializeField] private GridLayoutGroup grid;
         [SerializeField] private StorageUISlot slot;
         [SerializeField] private DraggedItem draggedItem;
         [SerializeField] private DetailUI detailWidget;
-        public Inventory PlayerInventory { get; private set; }
-        public Storage Storage { get; private set; }
+        [SerializeField] private Storage storage; 
         public StorageUISlot[] Slots { get; private set; }
-        public void SetStorage(Storage storage)
-        {
-            Storage = storage;
-        }
+        private int _lastId;
 
-        public void GenerateSlots(Storage storage, int id)
+        public void GenerateSlots(int id)
         {
-            Slots = new StorageUISlot[Storage.AmountOfSlots];
-                for (int i = 0; i < Storage.Slots.Length; i++)
+            if (id != _lastId)
+            {
+                if(Slots!=null)
+                {
+                    foreach (var entry in Slots)
+                    {
+                        Destroy(entry.gameObject);
+                    }
+                }
+                Slots = new StorageUISlot[storage.AmountOfSlots];
+                _lastId = id;
+
+                for (int i = 0; i < storage.AmountOfSlots; i++)
                 {
                     StorageUISlot newSlot = Instantiate(slot, transform, false);
-                    newSlot.FillVariables(i, Storage, draggedItem, detailWidget);
+                    newSlot.FillVariables(i, storage, draggedItem, detailWidget);
                     Slots[i] = newSlot;
                 }
+            }
+
         }
     }
 }

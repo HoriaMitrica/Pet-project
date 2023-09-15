@@ -161,12 +161,14 @@ namespace _Inventory
         }
         private void DropSetup(InventoryUISlot slot)
         {
-            InventoryUISlot targetSlot = GetDropTargetSlot();
-            if (targetSlot != null && targetSlot != slot)
+            var slots = GetDropTargetSlot();
+            var targetStorageSlot = slots.storageSlot;
+            var targetInventorySlot = slots.inventorySlot;
+            if (targetInventorySlot != null && targetInventorySlot != slot)
             {
                 ItemInfo tempItemInfo = slot.ItemInfo;
                 var fromIndex = slot.SlotIndex;
-                var toIndex = targetSlot.SlotIndex;
+                var toIndex = targetInventorySlot.SlotIndex;
                 if (Inventory.SameClassSlots(fromIndex, toIndex))
                 {
                     Inventory.AddToIndex(fromIndex, toIndex);
@@ -179,7 +181,7 @@ namespace _Inventory
                     }
                 }
             }
-            if (targetSlot == null)
+            if (targetInventorySlot == null && targetStorageSlot==null)
             {
                 if (ItemInfo.Category != ItemCategory.QuestItem)
                 {
@@ -194,24 +196,27 @@ namespace _Inventory
                     }
                 }
             }
+
+            if (targetStorageSlot != null)
+            {
+                Inventory.MoveFromInventoryToStorageIndex(slot.SlotIndex, targetStorageSlot.SlotIndex);
+            }
             _draggedItem.gameObject.SetActive(false);
         }
-        private InventoryUISlot GetDropTargetSlot()
+        private (InventoryUISlot inventorySlot,StorageUISlot storageSlot) GetDropTargetSlot()
         {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = Camera.main.nearClipPlane;
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Collider2D[] hitColliders = Physics2D.OverlapPointAll(worldPosition);
+            StorageUISlot targetStorageSlot=null;
+            InventoryUISlot targetInventorySlot=null;
             foreach (Collider2D collider in hitColliders)
             {
-
-                InventoryUISlot targetSlot = collider.GetComponent<InventoryUISlot>();
-                if (targetSlot != null)
-                {
-                    return targetSlot;
-                }
+                targetInventorySlot=collider.GetComponent<InventoryUISlot>();
+                targetStorageSlot= collider.GetComponent<StorageUISlot>();
             }
-            return null;
+            return (inventorySlot:targetInventorySlot,storageSlot:targetStorageSlot);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {

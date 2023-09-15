@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Enums;
 using Items;
 using Structures;
@@ -14,21 +15,28 @@ namespace _Inventory
     {
         public int AmountOfSlots { get; private set; }
         private int _maxStackSize = 64;
-        [SerializeField] private int startingNumberOfSlots;
-        [SerializeField] private GameObject player;
-        [SerializeField] private MasterItem startingItem;
-        [SerializeField] private MainWidget mainWidget;
-        private InventoryGrid _grid;
-        private bool _isStorageOpen;
-        public int Coins { get; private set; }
-        public InventorySlot[] Slots { get; private set; }
-        void Awake()
+        [SerializeField] private Inventory inventory;
+
+        public Inventory PlayerInventory
         {
-            ChangeAmountOfSlots(startingNumberOfSlots);
+            get { return inventory; }
+        }
+    
+        [SerializeField] private List<Chest> chests;
+        public InventorySlot[] Slots { get; private set; }
+        private int _activeChest = -1;
+        private StorageGrid _grid;
+
+        public void SetActiveChest(int id)
+        {
+            _activeChest = id;
+        }
+        public void CreateSlots(InventorySlot[] slots)
+        {
             Slots = new InventorySlot[AmountOfSlots];
         }
-         
-         public void SetGrid(InventoryGrid grid)
+        
+         public void SetGrid(StorageGrid grid)
          {
              _grid = grid;
          }
@@ -148,22 +156,21 @@ namespace _Inventory
 
         public bool RemoveItemAtIndex(int index, int amount)
         {
+            var chest=chests.Find(chest => chest.Id == _activeChest);
             if (!IsSlotEmpty(index) && amount > 0)
             {
                 if (amount >= GetAmountAtIndex(index))
                 {
+                    chest.RemoveItem(index,Slots[index],GetAmountAtIndex(index));
                     Slots[index] = null;
                     UpdateSlotAtIndex(index);
                     return true;
                 }
-                else
-                {
-                    Slots[index] = new InventorySlot(Slots[index].ItemClass, Slots[index].Amount - amount);
-                    UpdateSlotAtIndex(index);
-                    return true;
-                }
+                chest.RemoveItem(index,Slots[index],Slots[index].Amount - amount);
+                Slots[index] = new InventorySlot(Slots[index].ItemClass, Slots[index].Amount - amount);
+                UpdateSlotAtIndex(index);
+                return true;
             }
-
             return false;
         }
 
@@ -171,12 +178,14 @@ namespace _Inventory
         {
             if (index1 < Slots.Length && index2 < Slots.Length)
             {
+                var chest=chests.Find(chest => chest.Id == _activeChest);
                 (Slots[index2], Slots[index1]) = (Slots[index1], Slots[index2]);
                 UpdateSlotAtIndex(index1);
                 UpdateSlotAtIndex(index2);
+                chest.AddItem(index1,Slots[index1]);
+                chest.AddItem(index2,Slots[index2]);
                 return true;
             }
-
             return false;
         }
         
@@ -188,6 +197,7 @@ namespace _Inventory
         }
         public bool AddToIndex(int fromIndex, int toIndex)
         {
+            var chest=chests.Find(chest => chest.Id == _activeChest);
             if (SameClassSlots(fromIndex, toIndex) &&
                 Slots[toIndex].Amount<_maxStackSize && 
                 Slots[fromIndex].ItemClass.info.CanStack)
@@ -197,24 +207,40 @@ namespace _Inventory
                 {
                     Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(toIndex) + GetAmountAtIndex(fromIndex));
                     Slots[fromIndex] = null;
+                    chest.AddItem(toIndex,Slots[toIndex]);
+                    chest.AddItem(fromIndex,Slots[fromIndex]);
                     UpdateSlotAtIndex(fromIndex);
                     UpdateSlotAtIndex(toIndex);
                     return true;
                 }
                 Slots[toIndex] = new InventorySlot(Slots[fromIndex].ItemClass, _maxStackSize);
                 Slots[fromIndex] = new InventorySlot(Slots[fromIndex].ItemClass, GetAmountAtIndex(fromIndex)-rest);
+                chest.AddItem(toIndex,Slots[toIndex]);
+                chest.AddItem(fromIndex,Slots[fromIndex]);
                 UpdateSlotAtIndex(fromIndex);
                 UpdateSlotAtIndex(toIndex);
                 return true;
             }
             return false;
         }
-        
+        public bool AddItemAtIndexInternal(int index, MasterItem itemClass, int amount)
+        {
+            if (IsSlotEmpty(index) && amount <= _maxStackSize)
+            { 
+                var chest=chests.Find(chest => chest.Id == _activeChest);
+                Slots[index]=new InventorySlot(itemClass, amount);
+                UpdateSlotAtIndex(index);
+                return true;
+            }
+            return false;
+        }
         public bool AddItemAtIndex(int index, MasterItem itemClass, int amount)
         {
             if (IsSlotEmpty(index) && amount <= _maxStackSize)
-            {
+            { 
+                var chest=chests.Find(chest => chest.Id == _activeChest);
                 Slots[index]=new InventorySlot(itemClass, amount);
+                chest.AddItem(index,Slots[index]);
                 UpdateSlotAtIndex(index);
                 return true;
             }
@@ -229,7 +255,35 @@ namespace _Inventory
                 UpdateSlotAtIndex(index);
                 return true;
             }
+            return false;
+        }
+        
+        public bool MoveFromStorageToInventoryIndex(int storageIndex, int inventoryIndex)
+        {
+            if (inventory.IsSlotEmpty(inventoryIndex))
+            {
+                int amountToAdd = GetAmountAtIndex(storageIndex);
+                if (inventory.AddItemAtIndex(inventoryIndex, Slots[storageIndex].ItemClass, amountToAdd))
+                {
+                    RemoveItemAtIndex(storageIndex, amountToAdd);
+                    return true;
+                }
 
+                return false;
+            }
+            if (Slots[storageIndex].ItemClass == inventory.Slots[inventoryIndex].ItemClass &&
+                GetItemAtIndex(storageIndex).ItemInfo.CanStack)
+            {
+                int amountToAdd =
+                    _maxStackSize - GetAmountAtIndex(storageIndex) < GetAmountAtIndex(inventoryIndex)
+                        ? _maxStackSize - GetAmountAtIndex(storageIndex)
+                        : GetAmountAtIndex(inventoryIndex);
+                if (inventory.IncreaseAmountAtIndex(inventoryIndex, amountToAdd))
+                {
+                    RemoveItemAtIndex(storageIndex, amountToAdd);
+                    return true;
+                }
+            }
             return false;
         }
     }

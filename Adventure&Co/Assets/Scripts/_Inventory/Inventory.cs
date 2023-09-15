@@ -16,15 +16,14 @@ namespace _Inventory
         private int _maxStackSize = 64;
         public List<MasterItem> UnlockedCraftableItems { get; private set; } = new List<MasterItem>();
         [SerializeField] private int startingNumberOfSlots;
-        [SerializeField] private GameObject player;
         [SerializeField] private MasterItem startingItem;
         [SerializeField] private MainWidget mainWidget;
+        [SerializeField] private Storage storage;
         [SerializeField] private TMP_Text coinsText;
         [SerializeField] private CraftingMenu craftingMenu;
         private InventoryGrid _grid;
-        private bool _isStorageOpen;
+        public bool isStorageOpen;
         public int Coins { get; private set; }
-        
         public InventorySlot[] Slots { get; private set; }
         [SerializeField] private List<MasterItem> startingCraftableItems=new List<MasterItem>();
          void Awake()
@@ -35,6 +34,7 @@ namespace _Inventory
             Debug.Log("The slots are created");
             Coins = 200;
             UpdateCoinsText();
+            
         }
 
          private void UpdateCoinsText()
@@ -208,7 +208,6 @@ namespace _Inventory
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -376,6 +375,34 @@ namespace _Inventory
                 return true;
             }
 
+            return false;
+        }
+        public bool MoveFromInventoryToStorageIndex(int inventoryIndex, int storageIndex)
+        {
+            if (storage.IsSlotEmpty(storageIndex))
+            {
+                int amountToAdd = GetAmountAtIndex(inventoryIndex);
+                if (storage.AddItemAtIndex(storageIndex, Slots[inventoryIndex].ItemClass, amountToAdd))
+                {
+                    RemoveItemAtIndex(inventoryIndex, amountToAdd);
+                    return true;
+                }
+
+                return false;
+            }
+            if (storage.Slots[storageIndex].ItemClass == Slots[inventoryIndex].ItemClass &&
+                GetItemAtIndex(inventoryIndex).ItemInfo.CanStack)
+            {
+                int amountToAdd =
+                    _maxStackSize - GetAmountAtIndex(inventoryIndex) < GetAmountAtIndex(storageIndex)
+                        ? _maxStackSize - GetAmountAtIndex(inventoryIndex)
+                        : GetAmountAtIndex(storageIndex);
+                if (storage.IncreaseAmountAtIndex(storageIndex, amountToAdd))
+                {
+                    RemoveItemAtIndex(inventoryIndex, amountToAdd);
+                    return true;
+                }
+            }
             return false;
         }
     }

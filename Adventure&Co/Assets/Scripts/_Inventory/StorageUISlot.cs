@@ -17,13 +17,11 @@ namespace _Inventory
         public ItemInfo ItemInfo { get; private set; }
         private int _amount;
         private CanvasGroup _imageVisibility;
-        private InventoryGrid _grid;
         [SerializeField] public Button button;
         [SerializeField] private Image image;
         [SerializeField] private TMP_Text text;
         private DraggedItem _draggedItem;
         private DetailUI _detailWidget;
-        private RemoveFromInventory _throwWidget;
         private float _lastClickTime;
         private float _doubleClickThreshold = 0.2f;
 
@@ -32,7 +30,7 @@ namespace _Inventory
             _imageVisibility = image.GetComponent<CanvasGroup>();
         }
         
-        public void FillVariables(int slotIndex, Storage storage, DraggedItem draggedItem,DetailUI detailWidget)
+        public void FillVariables(int slotIndex, Storage storage,DraggedItem draggedItem,DetailUI detailWidget)
         {
             _draggedItem = draggedItem;
             _detailWidget = detailWidget;
@@ -83,6 +81,11 @@ namespace _Inventory
             if (timeSinceLastClick < _doubleClickThreshold)
             {
                 Debug.Log("Storage Item Double Clicked");
+                var inventorySlot=Storage.PlayerInventory.SearchEmptySlot();
+                if (inventorySlot.Success)
+                {
+                    Storage.MoveFromStorageToInventoryIndex(index, inventorySlot.Index);
+                }
             }
             _lastClickTime = Time.time;
         }
@@ -90,7 +93,6 @@ namespace _Inventory
         private void AddDragDropFunctionality(StorageUISlot slot, int index)
         {
             EventTrigger eventTrigger = slot.button.GetComponent<EventTrigger>();
-
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.BeginDrag;
             entry.callback.AddListener((data) => { DragSetup(slot, index); });
@@ -139,12 +141,13 @@ namespace _Inventory
         }
         private void DropSetup(StorageUISlot slot)
         {
-            StorageUISlot targetSlot = GetDropTargetSlot();
-            if (targetSlot != null && targetSlot != slot)
+            var slots = GetDropTargetSlot();
+            var targetStorageSlot = slots.storageSlot;
+            var targetInventorySlot = slots.inventorySlot;
+            if (targetStorageSlot != null && targetStorageSlot != slot)
             {
-                ItemInfo tempItemInfo = slot.ItemInfo;
                 var fromIndex = slot.SlotIndex;
-                var toIndex = targetSlot.SlotIndex;
+                var toIndex = targetStorageSlot.SlotIndex;
                 if (Storage.SameClassSlots(fromIndex, toIndex))
                 {
                     Storage.AddToIndex(fromIndex, toIndex);
@@ -157,39 +160,28 @@ namespace _Inventory
                     }
                 }
             }
-            if (targetSlot == null)
+
+            if (targetInventorySlot != null)
             {
-                if (ItemInfo.Category != ItemCategory.QuestItem)
-                {
-                    if (Storage.GetItemAtIndex(SlotIndex).Amount > 1)
-                    {
-                        _throwWidget.gameObject.SetActive(true);
-                        _throwWidget.UpdateWidget(SlotIndex);
-                    }
-                    else
-                    {
-                        Storage.RemoveItemAtIndex(SlotIndex, 1);
-                    }
-                }
+                Storage.MoveFromStorageToInventoryIndex(slot.SlotIndex, targetInventorySlot.SlotIndex);
             }
+
             _draggedItem.gameObject.SetActive(false);
         }
-        private StorageUISlot GetDropTargetSlot()
+        private (StorageUISlot storageSlot,InventoryUISlot inventorySlot) GetDropTargetSlot()
         {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = Camera.main.nearClipPlane;
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Collider2D[] hitColliders = Physics2D.OverlapPointAll(worldPosition);
+            StorageUISlot targetStorageSlot=null;
+            InventoryUISlot targetInventorySlot=null;
             foreach (Collider2D collider in hitColliders)
             {
-
-                StorageUISlot targetSlot = collider.GetComponent<StorageUISlot>();
-                if (targetSlot != null)
-                {
-                    return targetSlot;
-                }
+                targetInventorySlot=collider.GetComponent<InventoryUISlot>();
+                targetStorageSlot= collider.GetComponent<StorageUISlot>();
             }
-            return null;
+            return (storageSlot:targetStorageSlot,inventorySlot:targetInventorySlot);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -198,7 +190,6 @@ namespace _Inventory
                 if (button.isActiveAndEnabled )
                 {
                     var worldPosition=GetWorldPosition();   
-                    RectTransform canvasRectTransform = _detailWidget.GetComponent<RectTransform>();
                     _detailWidget.transform.position = worldPosition;
                     _detailWidget.gameObject.SetActive(true);
                     _detailWidget.UpdateInfo(ItemInfo,_slotColor,_amount);

@@ -16,8 +16,8 @@ MonoBehaviour:
   Description: good for head
   Icon: {fileID: 21300000, guid: 4073d1baf39182349a705499593be621, type: 3}
   CanBeUsed: 1
-  UseText: 
-  CanStack: 1
+  UseText: Equip
+  CanStack: 0
   Category: 1
   ItemRarity: 1255000000
   RarityColor: {r: 1, g: 1, b: 1, a: 1}
@@ -27,3 +27,4 @@ MonoBehaviour:
     Amount: 4
   - ItemClass: {fileID: 2707407766984382411, guid: 64ab9a3b842b1db4596ee49c721db229, type: 3}
     Amount: 5
+  Price: 0
