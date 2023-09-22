@@ -775,7 +775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5176138352798683620, guid: 1172767676e54f943add36bd8981d2ec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.482
+      value: -3.167
       objectReference: {fileID: 0}
     - target: {fileID: 5176138352798683620, guid: 1172767676e54f943add36bd8981d2ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12156,6 +12156,18 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: -0.14527702
       objectReference: {fileID: 0}
+    - target: {fileID: 766380237685771066, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 766380237685771066, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 766380237685771066, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1133169441543457644, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: range
       value: 0
@@ -12174,7 +12186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2413261653509040672, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.029
+      value: -5.11
       objectReference: {fileID: 0}
     - target: {fileID: 2413261653509040672, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12214,11 +12226,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3198263099592672111, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: isAggresive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3198263099592672111, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: isPatrolling
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3198263099592672111, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: patrolPoints.Array.data[0]
@@ -12265,14 +12277,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5856847387992145803, guid: 25e129c18f7f5af4f8680588c1d6539f, type: 3}
     - target: {fileID: 5909088321996825691, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799218557802747695, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
+      propertyPath: walkSpeed
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 9182981051401007751, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
       propertyPath: m_Name
       value: Healthbar
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4106531028018455203, guid: 319f98a76d91a3444b22d1f13b19d2d2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

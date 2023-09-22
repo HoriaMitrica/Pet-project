@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace NPC.Enemies
@@ -6,10 +7,14 @@ namespace NPC.Enemies
     {
         private static readonly int HasToWalk = Animator.StringToHash("hasToWalk");
         [SerializeField] private Transform[] patrolPoints;
-        [SerializeField] public bool isPatrolling;
+        [SerializeField] private bool isPatrolling;
         [SerializeField] private bool isAggresive;
+        [SerializeField] private Vector3 offsetDistance;
         private bool _isMovingForward = true;
+        private bool _isPlayerInSight;
         private int _currentPatrolIndex;
+        private Vector3 _playerPosition;
+        private GameObject _playerReference;
         private Animator _animator;
         private EnemyStats _stats;
         private float _enemyX;
@@ -18,35 +23,43 @@ namespace NPC.Enemies
         {
             _stats = GetComponent<EnemyStats>();
             _animator = GetComponent<Animator>();
-            _animator.SetBool(HasToWalk, isPatrolling);
+            
         }
         
         void Update()
         {
-            if (isAggresive)
+            if (isAggresive && _playerReference)
             {
+                GetPlayerPosition();
                 MoveTowardsPlayer();
             }
             else
             {
                 if (isPatrolling)
                 {
+                    _animator.SetBool(HasToWalk, true);
                     MoveTowardsPatrolPoint();
+                }
+                else
+                {
+                    _animator.SetBool(HasToWalk, false);
                 }
             }
         }
 
         private void MoveTowardsPlayer()
         {
-            if (patrolPoints.Length == 0)
-                return;
-            Vector3 targetPosition = patrolPoints[_currentPatrolIndex].position;
-            var moveDirection = GetMovingDirection(targetPosition);
-            transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
+            Vector3 targetPosition =_playerPosition + offsetDistance;
             float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-            if (distanceToTarget < 0.1f)
+            if (distanceToTarget > 0.15f)
             {
-                ChangePatrolPoint();
+                var moveDirection = GetMovingDirection(targetPosition);
+                transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
+                _animator.SetBool(HasToWalk, true);
+            }
+            else
+            {
+                _animator.SetBool(HasToWalk, false);
             }
         }
         
@@ -69,6 +82,7 @@ namespace NPC.Enemies
         {
             if (patrolPoints.Length == 0)
                 return;
+            _animator.SetBool(HasToWalk, true);
             Vector3 targetPosition = patrolPoints[_currentPatrolIndex].position;
             var moveDirection = GetMovingDirection(targetPosition);
             transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
@@ -113,6 +127,37 @@ namespace NPC.Enemies
                 var localScale = transform.localScale;
                 localScale.x = -1f;
                 transform.localScale = localScale;  
+            }
+        }
+
+        private void GetPlayerPosition()
+        {
+            if (_playerReference != null)
+            {
+                _playerPosition=_playerReference.transform.position; 
+            }
+            _animator.SetBool(HasToWalk, false);
+        }
+
+        public void StopMovement()
+        {
+            isPatrolling = false;
+            isAggresive = false;
+        }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            
+            if (other.CompareTag("Player"))
+            {
+                _playerReference = other.gameObject;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                _playerReference = null;
             }
         }
     }

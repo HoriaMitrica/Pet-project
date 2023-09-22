@@ -39,10 +39,6 @@ public class Chest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            _storageCanvas.enabled = !_storageCanvas.enabled;
-        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (_playerController != null)

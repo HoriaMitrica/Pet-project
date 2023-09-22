@@ -10,8 +10,8 @@ namespace NPC.Enemies
 public class EnemyCombat : MonoBehaviour
 {
     private static readonly int Attack = Animator.StringToHash("Attack");
+    private static readonly int Hurt = Animator.StringToHash("isHurt");
     private static readonly int IsDead = Animator.StringToHash("isDead");
-    [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private CircleCollider2D circleCollider;
     [SerializeField] private  float attackCooldown = 1f;
     [SerializeField] private float range;
@@ -38,7 +38,7 @@ public class EnemyCombat : MonoBehaviour
     void Update()
     {
         _cooldownTimer += Time.deltaTime;
-        if (PlayerInSight())
+        if (PlayerInBiteRange())
         {
             
             if (_cooldownTimer >= attackCooldown)
@@ -48,9 +48,8 @@ public class EnemyCombat : MonoBehaviour
             }
         }
     }
-    private bool PlayerInSight()
+    private bool PlayerInBiteRange()
     {
-
         RaycastHit2D hit = Physics2D.CircleCast(circleCollider.bounds.center,circleCollider.radius,Vector2.left,0,_playerLayer);
         if (hit.collider != null)
         { 
@@ -77,6 +76,7 @@ public class EnemyCombat : MonoBehaviour
     {
         _cooldownTimer -= _hurtTimer;
         _stats.DecreaseHealth(damageTaken);
+        _animator.SetTrigger(Hurt);
         _healthbar.SetHealth(_stats.CurrentHealth,_stats.MaxHealth);
         if (_stats.CurrentHealth <= 0)
         {
@@ -85,15 +85,15 @@ public class EnemyCombat : MonoBehaviour
     }
     private void Die()
     {
-        GetComponent<BoxCollider2D>().isTrigger = true;
-        _movement.isPatrolling = false;
+        _movement.StopMovement();
         _animator.SetBool(IsDead,true);
     }
     public void DealDamage()
     {
+        Debug.Log("Attack");
         if (_playerCombat == null)
             return;
-        if (PlayerInSight())
+        if (PlayerInBiteRange())
         {
             _playerCombat.TakeDamage(_stats.Damage);
         }
