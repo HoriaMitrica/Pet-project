@@ -23,18 +23,36 @@ namespace NPC.Enemies
         
         void Update()
         {
-            
-            if (isPatrolling)
+            if (isAggresive)
             {
-                MoveTowardsPatrolPoint();
+                MoveTowardsPlayer();
+            }
+            else
+            {
+                if (isPatrolling)
+                {
+                    MoveTowardsPatrolPoint();
+                }
             }
         }
-        
-        private void MoveTowardsPatrolPoint()
+
+        private void MoveTowardsPlayer()
         {
             if (patrolPoints.Length == 0)
                 return;
             Vector3 targetPosition = patrolPoints[_currentPatrolIndex].position;
+            var moveDirection = GetMovingDirection(targetPosition);
+            transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+            if (distanceToTarget < 0.1f)
+            {
+                ChangePatrolPoint();
+            }
+        }
+        
+
+        private Vector3 GetMovingDirection(Vector3 targetPosition)
+        {
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             if (moveDirection.x < 0)
             {
@@ -44,6 +62,15 @@ namespace NPC.Enemies
             {
                 Flip("left");
             }
+
+            return moveDirection;
+        }
+        private void MoveTowardsPatrolPoint()
+        {
+            if (patrolPoints.Length == 0)
+                return;
+            Vector3 targetPosition = patrolPoints[_currentPatrolIndex].position;
+            var moveDirection = GetMovingDirection(targetPosition);
             transform.Translate(moveDirection * (_stats.WalkSpeed * Time.deltaTime));
             float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
             if (distanceToTarget < 0.1f)

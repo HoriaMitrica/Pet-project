@@ -1010,7 +1010,7 @@ MonoBehaviour:
   nameText: {fileID: 6414429987354974681}
   categoryText: {fileID: 8725136720246210383}
   icon: {fileID: 5518929916058486998}
-  descriptionText: {fileID: 0}
+  descriptionText: {fileID: 2267531880366653942}
 --- !u!1 &7037579549047951267
 GameObject:
   m_ObjectHideFlags: 0

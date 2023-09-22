@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1423290842196428405}
   - component: {fileID: 8964273767186928052}
   - component: {fileID: 4912571359732198732}
+  - component: {fileID: 8740778867785492902}
   m_Layer: 0
   m_Name: Shopkeeper_old_man
   m_TagString: Untagged
@@ -175,6 +176,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8740778867785492902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8609078220500152896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a45efec604ed343a786d8a09caf817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 344411512298449057}
+  nameUI: {fileID: 3083395340947074383}
+  name: George the Shopkeeper
 --- !u!1001 &6731682531232229550
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -293,7 +309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5322864981777430136, guid: 1cd2f6e315385a34a86123f3e2b49dce, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.19999695
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5322864981777430136, guid: 1cd2f6e315385a34a86123f3e2b49dce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

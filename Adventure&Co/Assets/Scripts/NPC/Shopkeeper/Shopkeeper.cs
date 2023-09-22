@@ -10,21 +10,19 @@ namespace NPC.Shopkeeper
 {
     public class Shopkeeper : MonoBehaviour
     {
-        [SerializeField] private TMP_Text nameText;
-        [SerializeField] private string npcName;
-        [SerializeField] private GameObject nameUI;
         [SerializeField] private ShopWidget shopReference;
+        [SerializeField] private UiHandle uiHandle;
         [SerializeField] private List<MasterItem> items;
+        private bool _hasUi;
         private int _id;
-        private Canvas _nameCanvas;
-        private SpriteRenderer _sprite;
         private PlayerController _playerController;
         private void Start()
         {
-            _sprite = GetComponent<SpriteRenderer>();
-            nameText.text = npcName;
-            _nameCanvas=nameUI.GetComponent<Canvas>();
             _id = UniqueIDGenerator.GetUniqueID();
+            if (uiHandle != null)
+            {
+                _hasUi = true;
+            }
         }
 
         private void Update()
@@ -42,7 +40,10 @@ namespace NPC.Shopkeeper
         {
             shopReference.GenerateEntries(items,_id);
             shopReference.GetComponent<Canvas>().enabled = true;
-            _nameCanvas.enabled = false;
+            if (_hasUi) 
+            {
+                uiHandle.CanvasDisable();
+            }
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -51,7 +52,10 @@ namespace NPC.Shopkeeper
                 Debug.Log("Hello");
                 GameObject player = other.gameObject;
                 _playerController = player.GetComponent<PlayerController>();
-                _nameCanvas.enabled = true;
+                if (_hasUi) 
+                {
+                    uiHandle.CanvasEnable();
+                }
             }
         }
         private void OnTriggerExit2D(Collider2D other)
@@ -59,7 +63,10 @@ namespace NPC.Shopkeeper
             if (other.CompareTag("Player"))
             {
                 _playerController = null;
-                _nameCanvas.enabled = false;
+                if (_hasUi) 
+                {
+                    uiHandle.CanvasDisable();
+                }
                 shopReference.GetComponent<Canvas>().enabled = false;
                 shopReference.CloseShop();
             }

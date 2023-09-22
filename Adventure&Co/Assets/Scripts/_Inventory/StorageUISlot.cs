@@ -190,7 +190,7 @@ namespace _Inventory
                 if (button.isActiveAndEnabled )
                 {
                     var worldPosition=GetWorldPosition();   
-                    _detailWidget.transform.position = worldPosition;
+                    _detailWidget.transform.position = worldPosition+new Vector3(0.5f,-0.25f,0);;
                     _detailWidget.gameObject.SetActive(true);
                     _detailWidget.UpdateInfo(ItemInfo,_slotColor,_amount);
                 }

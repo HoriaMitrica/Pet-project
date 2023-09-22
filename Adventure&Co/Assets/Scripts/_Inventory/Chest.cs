@@ -5,13 +5,13 @@ using Items;
 using Player;
 using Static;
 using Structures;
+using TMPro;
 using UnityEngine;
 
 public class Chest : MonoBehaviour
 {
     [SerializeField] private int amountOfSlots;
-    [SerializeField] private GameObject nameUI;
-    [SerializeField] private string objectName;
+    [SerializeField] private UiHandle uiHandle;
     [SerializeField] private GameObject storageUiReference;
     [SerializeField] private Storage storage;
     [SerializeField] private StorageGrid storageGrid;
@@ -19,12 +19,15 @@ public class Chest : MonoBehaviour
     private InventorySlot[] _slots;
     public int Id { get; private set; }
     private PlayerController _playerController;
-    private Canvas _nameCanvas;
+    private bool _hasUi;
     private Canvas _storageCanvas;
     void Start()
     {
+        if (uiHandle != null)
+        {
+            _hasUi = true;
+        }
         Id = UniqueIDGenerator.GetUniqueID();
-        _nameCanvas=nameUI.GetComponent<Canvas>();
         _storageCanvas = storageUiReference.GetComponent<Canvas>();
         _slots=new InventorySlot[amountOfSlots];
         for (int i = 0; i < chestItems.Count; i++)
@@ -84,7 +87,10 @@ public class Chest : MonoBehaviour
                 storage.AddItemAtIndexInternal(i,_slots[i].ItemClass, _slots[i].Amount);
         }
         _storageCanvas.enabled = !_storageCanvas.enabled;
-        _nameCanvas.enabled = false;
+        if (_hasUi)
+        {
+            uiHandle.CanvasDisable();
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -93,7 +99,10 @@ public class Chest : MonoBehaviour
             Debug.Log("Hello");
             GameObject player = other.gameObject;
             _playerController = player.GetComponent<PlayerController>();
-            _nameCanvas.enabled = true;
+            if (_hasUi)
+            {
+                uiHandle.CanvasEnable();
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -101,7 +110,10 @@ public class Chest : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _playerController = null;
-            _nameCanvas.enabled = false;
+            if (_hasUi)
+            {
+                uiHandle.CanvasDisable();
+            }
             _storageCanvas.enabled = false;
         }
     }
