@@ -2,7 +2,7 @@
 
 ## About the project
 
-Adventure&Co is a 2d side scroller roguelike game made with unity.\
+Adventure&Co is a 2d side scroller roguelike game made with Unity.
 
 Some of the final features will include a looting and crafting system, quest system and dialogue system.
 
@@ -13,6 +13,6 @@ At this time, it is still a work in progress and it doesn't have a built version
 ## Target
 Learn about Unity and improve my C# skills 
 
-# Short Demo Video of the features I implemented so far
+## Short Demo Video of the features I implemented so far
 
 https://youtu.be/dV5KV0XlNGc
