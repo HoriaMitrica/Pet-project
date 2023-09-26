@@ -21,7 +21,13 @@ namespace _Inventory
         
         public void OnButtonPressed()
         {
+            ToggleInteractable();
             _craftingMenu.OnCraftableClicked(this);
+        }
+
+        public void ToggleInteractable()
+        {
+            selectButton.interactable = !selectButton.interactable;
         }
     }
 }

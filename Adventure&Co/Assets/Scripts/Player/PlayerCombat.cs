@@ -37,6 +37,7 @@ namespace Player
 
         public void TakeDamage(int damageTaken)
         {
+            Debug.Log("Hit!");
             _stats.DecreaseHealth(damageTaken);
             if (_stats.CurrentHealth <= 0)
             {

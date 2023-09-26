@@ -10,9 +10,8 @@ namespace Items.pickups
     {
         [SerializeField] private MasterItem itemClass;
         [SerializeField] private int amount;
-        [SerializeField] private TMP_Text nameText;
-        [SerializeField] private GameObject nameUI;
-        private Canvas _nameCanvas;
+        [SerializeField] private UiHandle uiHandle;
+        private bool _hasUi;
         private SpriteRenderer _sprite;
         private PlayerController _playerController;
 
@@ -20,8 +19,10 @@ namespace Items.pickups
         {
             _sprite = GetComponent<SpriteRenderer>();
             _sprite.sprite = itemClass.info.Icon;
-            nameText.text = $"{itemClass.info.Name} x{amount}";
-            _nameCanvas=nameUI.GetComponent<Canvas>();
+            if (uiHandle != null)
+            {
+                _hasUi = true;
+            }
         }
 
         void Update()
@@ -54,7 +55,10 @@ namespace Items.pickups
             {
                 GameObject player = other.gameObject;
                 _playerController = player.GetComponent<PlayerController>();
-                _nameCanvas.enabled = true;
+                if (_hasUi)
+                {
+                    uiHandle.CanvasEnable();
+                }
             }
         }
         private void OnTriggerExit2D(Collider2D other)
@@ -62,7 +66,10 @@ namespace Items.pickups
             if (other.CompareTag("Player"))
             {
                 _playerController = null;
-                _nameCanvas.enabled = false;
+                if (_hasUi)
+                {
+                    uiHandle.CanvasDisable();
+                }
             }
         }
         

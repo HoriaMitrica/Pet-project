@@ -45,7 +45,11 @@ public class ShopEntry : MonoBehaviour
 
     public void OnBuyClicked()
     {
-        _inventory.AddItem(_itemClass,Convert.ToInt32(slider.value));
-        _inventory.DecreaseMoney(_itemClass.info.Price *Convert.ToInt32(slider.value));
+        
+        var addItem = _inventory.AddItem(_itemClass,Convert.ToInt32(slider.value));
+        if (addItem.Success)
+        {
+            _inventory.DecreaseMoney(_itemClass.info.Price *(Convert.ToInt32(slider.value)-addItem.Remainder));
+        }
     }
 }

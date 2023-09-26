@@ -6,7 +6,6 @@ using UnityEngine;
 public class MainUIController : MonoBehaviour
 {
     [SerializeField] private GameObject inventoryUI;
-    [SerializeField] private Inventory inventory;
     [SerializeField] private RemoveFromInventory throwWidget;
     [SerializeField] private ActionMenu actionMenu;
     [SerializeField] private CraftingMenu craftingMenu;
@@ -33,6 +32,7 @@ public class MainUIController : MonoBehaviour
         {
             ToggleCraftingMenu();
         } 
+        
     }
 
     public void ToggleInventory()

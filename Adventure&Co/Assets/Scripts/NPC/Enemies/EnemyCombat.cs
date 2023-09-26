@@ -7,11 +7,12 @@ using UnityEngine;
 namespace NPC.Enemies
 {
 
-public class EnemyCombat : MonoBehaviour, ICombat
+public class EnemyCombat : MonoBehaviour
 {
     private static readonly int Attack = Animator.StringToHash("Attack");
+    private static readonly int Hurt = Animator.StringToHash("isHurt");
     private static readonly int IsDead = Animator.StringToHash("isDead");
-    [SerializeField] private BoxCollider2D _boxCollider;
+    [SerializeField] private CircleCollider2D circleCollider;
     [SerializeField] private  float attackCooldown = 1f;
     [SerializeField] private float range;
     private float _cooldownTimer = Mathf.Infinity;
@@ -37,7 +38,7 @@ public class EnemyCombat : MonoBehaviour, ICombat
     void Update()
     {
         _cooldownTimer += Time.deltaTime;
-        if (PlayerInSight())
+        if (PlayerInBiteRange())
         {
             
             if (_cooldownTimer >= attackCooldown)
@@ -47,11 +48,9 @@ public class EnemyCombat : MonoBehaviour, ICombat
             }
         }
     }
-    private bool PlayerInSight()
+    private bool PlayerInBiteRange()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(_boxCollider.bounds.center+transform.right * (range * transform.localScale.x),
-            _boxCollider.bounds.size,
-            0, Vector2.left, 0, _playerLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(circleCollider.bounds.center,circleCollider.radius,Vector2.left,0,_playerLayer);
         if (hit.collider != null)
         { 
             _playerCombat=hit.transform.GetComponent<PlayerCombat>();
@@ -62,10 +61,22 @@ public class EnemyCombat : MonoBehaviour, ICombat
         }
         return hit.collider != null;
     }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow; // Set the color you want for the visualization
+
+        float radius = circleCollider.radius;
+        Vector2 origin = circleCollider.bounds.center + transform.right * (range * transform.localScale.x);
+
+        Gizmos.DrawWireSphere(origin, radius);
+    }
+    
     public void TakeDamage(int damageTaken)
     {
         _cooldownTimer -= _hurtTimer;
         _stats.DecreaseHealth(damageTaken);
+        _animator.SetTrigger(Hurt);
         _healthbar.SetHealth(_stats.CurrentHealth,_stats.MaxHealth);
         if (_stats.CurrentHealth <= 0)
         {
@@ -74,22 +85,15 @@ public class EnemyCombat : MonoBehaviour, ICombat
     }
     private void Die()
     {
-        GetComponent<BoxCollider2D>().isTrigger = true;
-        _movement.isPatrolling = false;
+        _movement.StopMovement();
         _animator.SetBool(IsDead,true);
     }
-    /*private void OnDrawGizmos()
-    {
-        Gizmos.color=Color.blue;
-        Gizmos.DrawWireCube(_boxCollider.bounds.center+transform.right*range*transform.localScale.x,
-            _boxCollider.bounds.size);
-    }*/
-
     public void DealDamage()
     {
+        Debug.Log("Attack");
         if (_playerCombat == null)
             return;
-        if (PlayerInSight())
+        if (PlayerInBiteRange())
         {
             _playerCombat.TakeDamage(_stats.Damage);
         }

@@ -14,20 +14,16 @@ namespace _Inventory
         [SerializeField] private DetailUI detailWidget;
         [SerializeField] private RemoveFromInventory throwWidget;
         [SerializeField] private ActionMenu actionMenu;
-        public Inventory Inventory { get; private set; }
+        [SerializeField] private Inventory inventory;
         public InventoryUISlot[] Slots { get; private set; }
-
-        public void SetInventory(Inventory inventory)
-        {
-            Inventory = inventory;
-        }
+        
         public void GenerateSlots()
         {
-            Slots = new InventoryUISlot[Inventory.AmountOfSlots];
-            for(int i=0;i<Inventory.Slots.Length;i++)
+            Slots = new InventoryUISlot[inventory.AmountOfSlots];
+            for(int i=0;i<inventory.Slots.Length;i++)
             {
                 InventoryUISlot newSlot = Instantiate(slot, transform, false);
-                newSlot.FillVariables(i,Inventory,draggedItem,detailWidget,throwWidget,actionMenu);
+                newSlot.FillVariables(i,inventory,draggedItem,detailWidget,throwWidget,actionMenu);
                 Slots[i]=newSlot;
             }   
         }
