@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Items;
 using TMPro;
@@ -26,13 +25,13 @@ namespace _Inventory
         private IEnumerator PlayObtainedItemAnimation()
         {
             animator.SetTrigger("FadeIn");
-            
+
             yield return new WaitForSeconds(fadeInDuration);
-            
+
             yield return new WaitForSeconds(visibleDuration);
-            
+
             animator.SetTrigger("FadeOut");
-            
+
             yield return new WaitForSeconds(fadeOutDuration);
             gameObject.GetComponent<Canvas>().enabled = false;
             mainWidget.OnObtainMessageEnd();

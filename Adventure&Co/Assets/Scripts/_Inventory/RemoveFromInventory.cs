@@ -1,4 +1,3 @@
-
 using Structures;
 using TMPro;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace _Inventory
         private int _maxAmount;
         private int _throwCount=1;
         private int _foundIndex;
-        private float _lastClickTime; 
+        private float _lastClickTime;
         private float _doubleClickThreshold = 0.12f;
         private float _repeatRate = 0.1f;
         private ItemInfo _itemInfo;
@@ -115,13 +114,12 @@ namespace _Inventory
             }
         }
 
-        // Function to decrement the number
         private void DecrementNumber()
         {
             if (_throwCount >1)
             {
                 _throwCount--;
-                
+
                 countText.text = $"{_throwCount}";
             }
             if (shopReference.IsShopOpen)

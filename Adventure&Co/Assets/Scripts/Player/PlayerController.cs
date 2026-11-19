@@ -1,17 +1,15 @@
-
 using _Inventory;
 using UnityEngine;
 
 namespace Player
 {
     public class PlayerController : MonoBehaviour
-{ 
+{
     private PlayerStats _stats;
     private Rigidbody2D _rigidbody;
     [SerializeField] public Inventory inventory;
     private Animator _animator;
     private float _horizontal;
-    private float _attackspeed=1;
     private bool _isfacingRight = true;
     private bool _isJumpPressed;
     private static readonly int IsJumping = Animator.StringToHash("isJumping");
@@ -19,8 +17,7 @@ namespace Player
     private static readonly int IsRunning = Animator.StringToHash("isRunning");
     private static readonly int AttackingStrong = Animator.StringToHash("AttackingStrong");
     private static readonly int AttackingBasic = Animator.StringToHash("AttackingBasic");
-    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
-    
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -59,13 +56,13 @@ namespace Player
              {
                  _animator.SetBool(IsRunning,true);
                  _animator.SetBool(IsWalking,true);
-                 _rigidbody.velocity = new Vector2(_horizontal*_stats.RunSpeed, _rigidbody.velocity.y);
+                 _rigidbody.linearVelocity = new Vector2(_horizontal*_stats.RunSpeed, _rigidbody.linearVelocity.y);
              }
              else
              {
                  _animator.SetBool(IsRunning,false);
                  _animator.SetBool(IsWalking,true);
-                 _rigidbody.velocity = new Vector2(_horizontal*_stats.WalkSpeed, _rigidbody.velocity.y);
+                 _rigidbody.linearVelocity = new Vector2(_horizontal*_stats.WalkSpeed, _rigidbody.linearVelocity.y);
              }
          if (_animator.GetBool(IsJumping) == false &&_isJumpPressed)
          {
@@ -82,7 +79,7 @@ namespace Player
              transform.localScale = localScale;
          }
      }
-    
+
      private void OnTriggerEnter2D(Collider2D collision)
      {
          if (collision.gameObject.CompareTag("Ground"))

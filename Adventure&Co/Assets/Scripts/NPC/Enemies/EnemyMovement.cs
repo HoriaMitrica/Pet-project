@@ -1,4 +1,3 @@
-using Player;
 using UnityEngine;
 
 namespace NPC.Enemies
@@ -18,14 +17,14 @@ namespace NPC.Enemies
         private Animator _animator;
         private EnemyStats _stats;
         private float _enemyX;
-        
+
         void Start()
         {
             _stats = GetComponent<EnemyStats>();
             _animator = GetComponent<Animator>();
-            
+
         }
-        
+
         void Update()
         {
             if (isAggresive && _playerReference)
@@ -62,7 +61,7 @@ namespace NPC.Enemies
                 _animator.SetBool(HasToWalk, false);
             }
         }
-        
+
 
         private Vector3 GetMovingDirection(Vector3 targetPosition)
         {
@@ -120,13 +119,13 @@ namespace NPC.Enemies
             {
                 var localScale = transform.localScale;
                 localScale.x = 1f;
-                transform.localScale = localScale;   
+                transform.localScale = localScale;
             }
             if (direction == "left")
             {
                 var localScale = transform.localScale;
                 localScale.x = -1f;
-                transform.localScale = localScale;  
+                transform.localScale = localScale;
             }
         }
 
@@ -134,7 +133,7 @@ namespace NPC.Enemies
         {
             if (_playerReference != null)
             {
-                _playerPosition=_playerReference.transform.position; 
+                _playerPosition=_playerReference.transform.position;
             }
             _animator.SetBool(HasToWalk, false);
         }
@@ -146,7 +145,7 @@ namespace NPC.Enemies
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
-            
+
             if (other.CompareTag("Player"))
             {
                 _playerReference = other.gameObject;

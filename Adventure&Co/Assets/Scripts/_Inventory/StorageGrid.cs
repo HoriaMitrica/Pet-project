@@ -1,7 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace _Inventory
 {
@@ -10,7 +7,7 @@ namespace _Inventory
         [SerializeField] private StorageUISlot slot;
         [SerializeField] private DraggedItem draggedItem;
         [SerializeField] private DetailUI detailWidget;
-        [SerializeField] private Storage storage; 
+        [SerializeField] private Storage storage;
         public StorageUISlot[] Slots { get; private set; }
         private int _lastId;
 

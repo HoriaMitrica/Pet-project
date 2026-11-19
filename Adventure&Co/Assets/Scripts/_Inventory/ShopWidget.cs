@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using _Inventory;
 using Items;
@@ -27,7 +26,7 @@ public class ShopWidget : MonoBehaviour
                 ShopEntry newEntry = Instantiate(shopEntry, shopEntryContainer.transform, false);
                 newEntry.InitializeEntry(this,item,inventory);
                 _shopEntries.Add(newEntry);
-            } 
+            }
         }
         OpenShop();
     }

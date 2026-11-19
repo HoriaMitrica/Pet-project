@@ -6,7 +6,6 @@ namespace Structures
     [CreateAssetMenu(fileName = "New ItemInfo", menuName = "Inventory/ItemInfo")]
     public class ItemInfo : ScriptableObject
     {
-        // Start is called before the first frame update
         [Header("Item Information")]
         public string Name;
         public string Description;
@@ -16,7 +15,7 @@ namespace Structures
         public bool CanStack;
         public ItemCategory Category;
         public ItemRarity ItemRarity;
-        public Color RarityColor;   
+        public Color RarityColor;
         public bool Craftable;
         public InventorySlot[] Recipe;
         [Header("Shop Information")]

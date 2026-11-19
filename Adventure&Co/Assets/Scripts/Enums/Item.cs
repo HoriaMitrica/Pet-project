@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Enums
 {
     public enum ItemCategory
@@ -10,6 +8,7 @@ namespace Enums
         Readable,
         Material
     }
+    // NOTE: values are serialized as ints in item assets. Do not renumber without migrating assets.
     public enum ItemRarity
     {
         Common=1255000000,
@@ -19,6 +18,6 @@ namespace Enums
         Legendary,
         Mythic,
         Ascended
-        
+
     }
 }

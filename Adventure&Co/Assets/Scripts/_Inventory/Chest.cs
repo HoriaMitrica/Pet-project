@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using _Inventory;
-using Items;
 using Player;
 using Static;
 using Structures;
-using TMPro;
 using UnityEngine;
 
 public class Chest : MonoBehaviour
@@ -36,7 +33,6 @@ public class Chest : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -68,7 +64,7 @@ public class Chest : MonoBehaviour
         {
             _slots[index] = null;
         }
-        
+
     }
     private void OnInteract()
     {
@@ -76,7 +72,7 @@ public class Chest : MonoBehaviour
         storage.ChangeAmountOfSlots(amountOfSlots);
         storage.CreateSlots(_slots);
         storageGrid.GenerateSlots(Id);
-        
+
         for (int i = 0; i < amountOfSlots; i++)
         {
             if(_slots[i]!=null)
@@ -92,7 +88,6 @@ public class Chest : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Hello");
             GameObject player = other.gameObject;
             _playerController = player.GetComponent<PlayerController>();
             if (_hasUi)

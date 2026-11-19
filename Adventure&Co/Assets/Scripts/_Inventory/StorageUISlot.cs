@@ -29,7 +29,7 @@ namespace _Inventory
         {
             _imageVisibility = image.GetComponent<CanvasGroup>();
         }
-        
+
         public void FillVariables(int slotIndex, Storage storage,DraggedItem draggedItem,DetailUI detailWidget)
         {
             _draggedItem = draggedItem;
@@ -70,7 +70,7 @@ namespace _Inventory
         private void AddClickFunctionality(StorageUISlot slot, int index)
         {
             EventTrigger eventTrigger = slot.button.GetComponent<EventTrigger>();
-            EventTrigger.Entry entry = new EventTrigger.Entry(); 
+            EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((data) => { DoubleClicked(index); });
             eventTrigger.triggers.Add(entry);
@@ -80,7 +80,6 @@ namespace _Inventory
             float timeSinceLastClick = Time.time - _lastClickTime;
             if (timeSinceLastClick < _doubleClickThreshold)
             {
-                Debug.Log("Storage Item Double Clicked");
                 var inventorySlot=Storage.PlayerInventory.SearchEmptySlot();
                 if (inventorySlot.Success)
                 {
@@ -154,10 +153,7 @@ namespace _Inventory
                 }
                 else
                 {
-                    if (Storage.SwapSlots(fromIndex, toIndex))
-                    {
-                        Debug.Log("SUCCESS");
-                    }
+                    Storage.SwapSlots(fromIndex, toIndex);
                 }
             }
 
@@ -178,8 +174,9 @@ namespace _Inventory
             InventoryUISlot targetInventorySlot=null;
             foreach (Collider2D collider in hitColliders)
             {
-                targetInventorySlot=collider.GetComponent<InventoryUISlot>();
-                targetStorageSlot= collider.GetComponent<StorageUISlot>();
+                // Keep the first match: a later collider must not overwrite a slot already found.
+                if (targetInventorySlot == null) targetInventorySlot = collider.GetComponent<InventoryUISlot>();
+                if (targetStorageSlot == null) targetStorageSlot = collider.GetComponent<StorageUISlot>();
             }
             return (storageSlot:targetStorageSlot,inventorySlot:targetInventorySlot);
         }
@@ -189,8 +186,8 @@ namespace _Inventory
             {
                 if (button.isActiveAndEnabled )
                 {
-                    var worldPosition=GetWorldPosition();   
-                    _detailWidget.transform.position = worldPosition+new Vector3(0.5f,-0.25f,0);;
+                    var worldPosition=GetWorldPosition();
+                    _detailWidget.transform.position = worldPosition+new Vector3(0.5f,-0.25f,0);
                     _detailWidget.gameObject.SetActive(true);
                     _detailWidget.UpdateInfo(ItemInfo,_slotColor,_amount);
                 }

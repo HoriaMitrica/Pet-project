@@ -1,7 +1,4 @@
-using System;
-using _Inventory;
 using Player;
-using TMPro;
 using UnityEngine;
 
 namespace Items.pickups
@@ -35,11 +32,11 @@ namespace Items.pickups
                 {
                     if (addItem.Remainder > 0)
                     {
-                        amount = addItem.Remainder; 
+                        amount = addItem.Remainder;
                     }
                     else
                     {
-                        Destroy(gameObject);   
+                        Destroy(gameObject);
                     }
                 }
             }
@@ -72,7 +69,7 @@ namespace Items.pickups
                 }
             }
         }
-        
-        
+
+
     }
 }

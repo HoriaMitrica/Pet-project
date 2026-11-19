@@ -1,16 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     public GameObject player;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-    
-    void Update()
+
+    // LateUpdate so the camera moves after the player has moved this frame (avoids jitter).
+    private void LateUpdate()
     {
         var position = player.transform.position;
         transform.position = new Vector3(position.x,position.y+1,-10);

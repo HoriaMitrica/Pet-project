@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using _Inventory;
 using UnityEngine;
 
@@ -13,7 +11,7 @@ public class MainUIController : MonoBehaviour
     private Canvas _throwCanvas;
     private Canvas _actionMenuCanvas;
     private Canvas _craftingMenuCanvas;
-    
+
 
     void Start()
     {
@@ -31,15 +29,15 @@ public class MainUIController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V))
         {
             ToggleCraftingMenu();
-        } 
-        
+        }
+
     }
 
     public void ToggleInventory()
     {
         if (_inventoryCanvas.enabled)
         {
-            
+
             _inventoryCanvas.enabled = false;
             _throwCanvas.enabled = false;
             _actionMenuCanvas.enabled = false;

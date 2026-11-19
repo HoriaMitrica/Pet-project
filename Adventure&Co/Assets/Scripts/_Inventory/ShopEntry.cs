@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using _Inventory;
 using Items;
 using TMPro;
@@ -45,7 +43,7 @@ public class ShopEntry : MonoBehaviour
 
     public void OnBuyClicked()
     {
-        
+
         var addItem = _inventory.AddItem(_itemClass,Convert.ToInt32(slider.value));
         if (addItem.Success)
         {

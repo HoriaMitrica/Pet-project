@@ -1,5 +1,3 @@
-
-using System;
 using Interfaces;
 using Player;
 using UnityEngine;
@@ -7,7 +5,7 @@ using UnityEngine;
 namespace NPC.Enemies
 {
 
-public class EnemyCombat : MonoBehaviour
+public class EnemyCombat : MonoBehaviour, ICombat
 {
     private static readonly int Attack = Animator.StringToHash("Attack");
     private static readonly int Hurt = Animator.StringToHash("isHurt");
@@ -23,7 +21,6 @@ public class EnemyCombat : MonoBehaviour
     private EnemyMovement _movement;
     private EnemyStats _stats;
     private HealthbarBehaviour _healthbar;
-    // Start is called before the first frame update
     void Start()
     {
         _movement = GetComponent<EnemyMovement>();
@@ -34,13 +31,12 @@ public class EnemyCombat : MonoBehaviour
         _healthbar.SetHealth(_stats.CurrentHealth,_stats.MaxHealth);
     }
 
-    // Update is called once per frame
     void Update()
     {
         _cooldownTimer += Time.deltaTime;
         if (PlayerInBiteRange())
         {
-            
+
             if (_cooldownTimer >= attackCooldown)
             {
                 _cooldownTimer = 0;
@@ -52,7 +48,7 @@ public class EnemyCombat : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.CircleCast(circleCollider.bounds.center,circleCollider.radius,Vector2.left,0,_playerLayer);
         if (hit.collider != null)
-        { 
+        {
             _playerCombat=hit.transform.GetComponent<PlayerCombat>();
         }
         else
@@ -61,17 +57,17 @@ public class EnemyCombat : MonoBehaviour
         }
         return hit.collider != null;
     }
-    
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow; // Set the color you want for the visualization
+        Gizmos.color = Color.yellow;
 
         float radius = circleCollider.radius;
         Vector2 origin = circleCollider.bounds.center + transform.right * (range * transform.localScale.x);
 
         Gizmos.DrawWireSphere(origin, radius);
     }
-    
+
     public void TakeDamage(int damageTaken)
     {
         _cooldownTimer -= _hurtTimer;
@@ -90,7 +86,6 @@ public class EnemyCombat : MonoBehaviour
     }
     public void DealDamage()
     {
-        Debug.Log("Attack");
         if (_playerCombat == null)
             return;
         if (PlayerInBiteRange())
@@ -98,6 +93,6 @@ public class EnemyCombat : MonoBehaviour
             _playerCombat.TakeDamage(_stats.Damage);
         }
     }
-    
-}   
+
+}
 }

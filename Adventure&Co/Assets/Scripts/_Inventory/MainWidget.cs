@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Items;
 using Structures;
@@ -22,7 +21,6 @@ namespace _Inventory
             inventory.SetGrid(inventoryGrid);
             storage.SetGrid(storageGrid);
             inventoryGrid.GenerateSlots();
-            //storageGrid.GenerateSlots();
             craftingMenu.InitializeCraftingMenu(inventory);
             _obtainedItemCanvas = obtainedItem.GetComponent<Canvas>();
         }

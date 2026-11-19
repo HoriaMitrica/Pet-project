@@ -1,4 +1,3 @@
-
 using Interfaces;
 using NPC.Enemies;
 using UnityEngine;
@@ -13,10 +12,9 @@ namespace Player
         private PlayerStats _stats;
         private LayerMask _enemyLayers;
         private static readonly int IsDead = Animator.StringToHash("isDead");
-        
+
         private Animator _animator;
 
-        // Start is called before the first frame update
         void Start()
         {
             _animator = GetComponent<Animator>();
@@ -25,7 +23,6 @@ namespace Player
             _stats = GetComponent<PlayerStats>();
         }
 
-        // Update is called once per frame
         public void DealDamage()
         {
             Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, _attackRange, _enemyLayers);
@@ -37,7 +34,6 @@ namespace Player
 
         public void TakeDamage(int damageTaken)
         {
-            Debug.Log("Hit!");
             _stats.DecreaseHealth(damageTaken);
             if (_stats.CurrentHealth <= 0)
             {

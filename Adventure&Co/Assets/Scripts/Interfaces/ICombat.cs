@@ -1,5 +1,3 @@
-
-
 namespace Interfaces
 {
     public interface ICombat
@@ -8,4 +6,3 @@ namespace Interfaces
         void DealDamage();
     }
 }
-

@@ -1,12 +1,8 @@
 using System.Collections.Generic;
-using Enums;
 using Items;
 using Structures;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace _Inventory
 {
@@ -31,10 +27,9 @@ namespace _Inventory
             ChangeAmountOfSlots(startingNumberOfSlots);
             PopulateCraftableList();
             Slots = new InventorySlot[AmountOfSlots];
-            Debug.Log("The slots are created");
             Coins = 200;
             UpdateCoinsText();
-            
+
         }
 
          private void UpdateCoinsText()
@@ -75,11 +70,11 @@ namespace _Inventory
         {
             if (IsSlotEmpty(index))
             {
-                return (Success:true, ItemInfo:null,Amount:-1);
+                return (Success:false, ItemInfo:null,Amount:-1);
             }
-            return (Success:false, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
+            return (Success:true, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
         }
-        public (bool Success,int Index) SearchEmptySlot()   
+        public (bool Success,int Index) SearchEmptySlot()
         {
             for (int i = 0; i < Slots.Length;i++)
             {
@@ -171,13 +166,12 @@ namespace _Inventory
                     }
                     else
                     {
-                        Slots[freeStack.Item2] = new InventorySlot(itemClass, sum);
-                        UpdateSlotAtIndex(freeStack.Item2);
+                        Slots[freeStack.Index] = new InventorySlot(itemClass, sum);
+                        UpdateSlotAtIndex(freeStack.Index);
                         return (Success:true,Remainder:0);
                     }
                 }
             }
-            return (Success:false,Remainder:0);
         }
         public int GetAmountAtIndex(int index)
         {
@@ -243,14 +237,14 @@ namespace _Inventory
                     }
                 }
             }
-            return false;   
+            return false;
         }
 
 
         public bool UseItemAtIndex(int index)
         {
             if (!IsSlotEmpty(index))
-            { 
+            {
                 if (Slots[index].ItemClass.info.CanBeUsed)
                 {
                     Slots[index].ItemClass.UseItem(this,index);
@@ -262,7 +256,7 @@ namespace _Inventory
 
             return false;
         }
-        
+
         public bool SameClassSlots(int index1, int index2)
         {
             if(!IsSlotEmpty(index1) && !IsSlotEmpty(index2))
@@ -272,7 +266,7 @@ namespace _Inventory
         public bool AddToIndex(int fromIndex, int toIndex)
         {
             if (SameClassSlots(fromIndex, toIndex) &&
-                Slots[toIndex].Amount<_maxStackSize && 
+                Slots[toIndex].Amount<_maxStackSize &&
                 Slots[fromIndex].ItemClass.info.CanStack)
             {
                 int rest = _maxStackSize - GetAmountAtIndex(toIndex);

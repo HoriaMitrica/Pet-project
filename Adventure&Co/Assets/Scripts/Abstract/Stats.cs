@@ -1,28 +1,26 @@
-
 using UnityEngine;
 
 namespace Abstract
 {
-public abstract class Stats : MonoBehaviour
-{
-    [SerializeField] private int maxHealth=100;
-    [SerializeField] private int damage=10;
-    [SerializeField] private float walkSpeed=1f;
-
-    private int _currentHealth;
-    public int MaxHealth => maxHealth;
-    public int CurrentHealth => _currentHealth;
-    public int Damage => damage;
-    public float WalkSpeed => walkSpeed;
-
-    void Awake()
+    public abstract class Stats : MonoBehaviour
     {
-        _currentHealth = maxHealth;
+        [SerializeField] private int maxHealth = 100;
+        [SerializeField] private int damage = 10;
+        [SerializeField] private float walkSpeed = 1f;
+
+        public int MaxHealth => maxHealth;
+        public int CurrentHealth { get; private set; }
+        public int Damage => damage;
+        public float WalkSpeed => walkSpeed;
+
+        protected virtual void Awake()
+        {
+            CurrentHealth = maxHealth;
+        }
+
+        public void DecreaseHealth(int amount)
+        {
+            CurrentHealth -= amount;
+        }
     }
-    public void DecreaseHealth(int amount)
-    {
-    _currentHealth -= amount;
-    }
-}
-    
 }

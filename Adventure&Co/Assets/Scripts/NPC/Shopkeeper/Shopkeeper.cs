@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Items;
 using Player;
 using Static;
-using TMPro;
 using UnityEngine;
 
 namespace NPC.Shopkeeper
@@ -40,7 +38,7 @@ namespace NPC.Shopkeeper
         {
             shopReference.GenerateEntries(items,_id);
             shopReference.GetComponent<Canvas>().enabled = true;
-            if (_hasUi) 
+            if (_hasUi)
             {
                 uiHandle.CanvasDisable();
             }
@@ -49,10 +47,9 @@ namespace NPC.Shopkeeper
         {
             if (other.CompareTag("Player"))
             {
-                Debug.Log("Hello");
                 GameObject player = other.gameObject;
                 _playerController = player.GetComponent<PlayerController>();
-                if (_hasUi) 
+                if (_hasUi)
                 {
                     uiHandle.CanvasEnable();
                 }
@@ -63,7 +60,7 @@ namespace NPC.Shopkeeper
             if (other.CompareTag("Player"))
             {
                 _playerController = null;
-                if (_hasUi) 
+                if (_hasUi)
                 {
                     uiHandle.CanvasDisable();
                 }

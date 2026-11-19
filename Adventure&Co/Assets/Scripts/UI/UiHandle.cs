@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UiHandle : MonoBehaviour
 {
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private GameObject nameUI;
-    [SerializeField] private string name;
+    // Renamed from 'name' (it hid Object.name). FormerlySerializedAs keeps existing scene values.
+    [FormerlySerializedAs("name")]
+    [SerializeField] private string displayName;
     private Canvas _nameCanvas;
     void Awake()
     {
-        nameText.text = name;
+        nameText.text = displayName;
         _nameCanvas=nameUI.GetComponent<Canvas>();
     }
 

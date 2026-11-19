@@ -1,13 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
-using Enums;
 using Items;
 using Structures;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace _Inventory
 {
@@ -21,7 +15,7 @@ namespace _Inventory
         {
             get { return inventory; }
         }
-    
+
         [SerializeField] private List<Chest> chests;
         public InventorySlot[] Slots { get; private set; }
         private int _activeChest = -1;
@@ -35,7 +29,7 @@ namespace _Inventory
         {
             Slots = new InventorySlot[AmountOfSlots];
         }
-        
+
          public void SetGrid(StorageGrid grid)
          {
              _grid = grid;
@@ -53,11 +47,11 @@ namespace _Inventory
         {
             if (IsSlotEmpty(index))
             {
-                return (Success:true, ItemInfo:null,Amount:-1);
+                return (Success:false, ItemInfo:null,Amount:-1);
             }
-            return (Success:false, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
+            return (Success:true, ItemInfo:Slots[index].ItemClass.info, Amount:Slots[index].Amount);
         }
-        public (bool Success,int Index) SearchEmptySlot()   
+        public (bool Success,int Index) SearchEmptySlot()
         {
             for (int i = 0; i < Slots.Length;i++)
             {
@@ -136,13 +130,12 @@ namespace _Inventory
                     }
                     else
                     {
-                        Slots[freeStack.Item2] = new InventorySlot(itemClass, sum);
-                        UpdateSlotAtIndex(freeStack.Item2);
+                        Slots[freeStack.Index] = new InventorySlot(itemClass, sum);
+                        UpdateSlotAtIndex(freeStack.Index);
                         return (Success:true,Remainder:0);
                     }
                 }
             }
-            return (Success:false,Remainder:0);
         }
         public int GetAmountAtIndex(int index)
         {
@@ -188,7 +181,7 @@ namespace _Inventory
             }
             return false;
         }
-        
+
         public bool SameClassSlots(int index1, int index2)
         {
             if(!IsSlotEmpty(index1) && !IsSlotEmpty(index2))
@@ -199,7 +192,7 @@ namespace _Inventory
         {
             var chest=chests.Find(chest => chest.Id == _activeChest);
             if (SameClassSlots(fromIndex, toIndex) &&
-                Slots[toIndex].Amount<_maxStackSize && 
+                Slots[toIndex].Amount<_maxStackSize &&
                 Slots[fromIndex].ItemClass.info.CanStack)
             {
                 int rest = _maxStackSize - GetAmountAtIndex(toIndex);
@@ -226,8 +219,7 @@ namespace _Inventory
         public bool AddItemAtIndexInternal(int index, MasterItem itemClass, int amount)
         {
             if (IsSlotEmpty(index) && amount <= _maxStackSize)
-            { 
-                var chest=chests.Find(chest => chest.Id == _activeChest);
+            {
                 Slots[index]=new InventorySlot(itemClass, amount);
                 UpdateSlotAtIndex(index);
                 return true;
@@ -237,7 +229,7 @@ namespace _Inventory
         public bool AddItemAtIndex(int index, MasterItem itemClass, int amount)
         {
             if (IsSlotEmpty(index) && amount <= _maxStackSize)
-            { 
+            {
                 var chest=chests.Find(chest => chest.Id == _activeChest);
                 Slots[index]=new InventorySlot(itemClass, amount);
                 chest.AddItem(index,Slots[index]);
@@ -257,7 +249,7 @@ namespace _Inventory
             }
             return false;
         }
-        
+
         public bool MoveFromStorageToInventoryIndex(int storageIndex, int inventoryIndex)
         {
             if (inventory.IsSlotEmpty(inventoryIndex))
